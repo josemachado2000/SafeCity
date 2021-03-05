@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--    APP    -->
+    <string name="app_name">SafeDrive</string>
+    <string name="welcome">Bem Vindo</string>
+
+    <!--    Welcome    -->
+    <string name="slogan">Por uma condução mais segura!</string>
+    <string name="appImage">appImage</string>
+
+    <!--    Menu    -->
+    <string name="login">Login</string>
+    <string name="register">Registar</string>
+    <string name="notes">Notas</string>
+    <string name="about">Sobre</string>
+</resources>

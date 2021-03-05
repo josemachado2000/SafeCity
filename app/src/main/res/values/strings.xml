@@ -1,0 +1,17 @@
+<resources>
+    <!--    APP    -->
+    <string name="app_name">SafeDrive</string>
+    <string name="appImage">appImage</string>
+
+    <!--    Welcome    -->
+    <string name="welcome">Welcome</string>
+    <string name="slogan">For safer driving!</string>
+
+    <!--    Menu    -->
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="notes">Notes</string>
+    <string name="about">About</string>
+
+
+</resources>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/login"
+        android:title="@string/login"
+        app:showAsAction="always" />
+
+    <item android:id="@+id/register"
+        android:title="@string/register"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/notes"
+        android:title="@string/notes"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/about"
+        android:title="@string/about"
+        app:showAsAction="never"/>
+</menu>
