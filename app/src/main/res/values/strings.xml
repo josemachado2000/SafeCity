@@ -13,5 +13,10 @@
     <string name="notes">Notes</string>
     <string name="about">About</string>
 
+    <!--    Note Recycler    -->
+<!--    <string name="recycler_note_title">Login</string>-->
+<!--    <string name="recycler_note_description">Register</string>-->
+
+
 
 </resources>
