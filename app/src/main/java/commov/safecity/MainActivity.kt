@@ -1,4 +1,4 @@
-package commov.safedrive
+package commov.safecity
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.welcome)
 
         Handler(Looper.getMainLooper()).postDelayed({
-            var intent = Intent(this, Home::class.java)
+            var intent = Intent(this, Notes::class.java)
             startActivity(intent)
             finish()
         }, 2000)

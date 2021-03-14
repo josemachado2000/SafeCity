@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="commov.safedrive">
+    package="commov.safecity">
 
     <application
+        android:name=".roomNotes.NotesApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SafeDrive">
-        <activity android:name=".MainActivity"
+        android:theme="@style/Theme.SafeCity">
+        <activity android:name="commov.safecity.MainActivity"
             android:theme="@style/WelcomeScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Home"/>
+        <activity android:name="commov.safecity.Home"/>
+        <activity android:name="commov.safecity.Notes"/>
+        <activity android:name="commov.safecity.InsertNote"/>
     </application>
 
 </manifest>

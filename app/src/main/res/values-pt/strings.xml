@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--    APP    -->
-    <string name="app_name">SafeDrive</string>
+    <string name="app_name">SafeCity</string>
     <string name="welcome">Bem Vindo</string>
 
     <!--    Welcome    -->
-    <string name="slogan">Por uma condução mais segura!</string>
+    <string name="slogan">Por uma cidade mais segura!</string>
     <string name="appImage">appImage</string>
 
     <!--    Menu    -->
@@ -13,4 +13,16 @@
     <string name="register">Registar</string>
     <string name="notes">Notas</string>
     <string name="about">Sobre</string>
+
+    <!--    Insert Note-->
+    <string name="insert_note_screenTitle">Inserir Nota</string>
+    <string name="insert_note_noteTitle">Título</string>
+    <string name="insert_note_noteDesc">Descrição</string>
+    <string name="insert_note_noteTitle_editText">Introduza um título</string>
+    <string name="insert_note_noteDesc_editText">Introduza uma descrição</string>
+    <string name="empty_not_saved">Erro</string>
+    <string name="button_saveNote">Guardar</string>
+
+    <!--    Recycler Notes    -->
+    <string name="recycler_notes_myNotes">As minhas notas</string>
 </resources>
