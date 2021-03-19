@@ -13,5 +13,5 @@ data class Note (
     @PrimaryKey(autoGenerate = true) val id: Int? = null,
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "description") val description: String,
-//    @ColumnInfo(name = "date") val date: Date
+    @ColumnInfo(name = "date") val date: String
 )

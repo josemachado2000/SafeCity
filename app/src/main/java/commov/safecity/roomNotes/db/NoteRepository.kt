@@ -18,7 +18,16 @@ class NoteRepository(private val noteDao: NoteDao) {
     // off the main thread.
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun insert(note: Note) {
+    suspend fun insertNote(note: Note) {
         noteDao.insertNote(note)
+    }
+    suspend fun updateNote(note: Note) {
+        noteDao.updateNote(note)
+    }
+    suspend fun deleteNote(note: Note) {
+        note.id?.let { noteDao.deleteNoteById(it) }
+    }
+    suspend fun deleteAllNotes() {
+        noteDao.deleteAllNotes()
     }
 }

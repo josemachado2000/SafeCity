@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 // Annotates class to be a Room Database with a table (entity) of the Note class
-@Database(entities = [Note::class], version = 1, exportSchema = false)
+@Database(entities = [Note::class], version = 2, exportSchema = false)
 public abstract class NoteDB : RoomDatabase() {
 
     abstract fun noteDao(): NoteDao
@@ -34,11 +34,9 @@ public abstract class NoteDB : RoomDatabase() {
             // Delete all content here.
             noteDao.deleteAllNotes()
 
-            // Add sample words.
-            var note = Note(1, "title1", "desc1")
-            noteDao.insertNote(note)
-
-            // TODO: Add your own words!
+            // Add sample notes.
+            // var note = Note(1, "title1", "desc1")
+            // noteDao.insertNote(note)
         }
     }
 
@@ -58,7 +56,7 @@ public abstract class NoteDB : RoomDatabase() {
                     "notes_database"
                 )
                 // Strategy of destruction
-                // .fallbackToDestructiveMigration()
+                .fallbackToDestructiveMigration()
                 .addCallback(NoteDatabaseCallback(scope))
                 .build()
 

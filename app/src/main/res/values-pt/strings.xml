@@ -22,7 +22,33 @@
     <string name="insert_note_noteDesc_editText">Introduza uma descrição</string>
     <string name="empty_not_saved">Erro</string>
     <string name="button_saveNote">Guardar</string>
+    <string name="insert_note_ObligationError">O campo não pode ser vazio</string>
+    <string name="insert_note_titleLengthError">Título demasiado longo</string>
+    <string name="insert_note_descLengthError">Descrição demasiada longo</string>
+
+    <!--    Edit Note    -->
+    <string name="edit_note_screenTitle">Editar nota</string>
+    <string name="edit_note_noteTitle">Título</string>
+    <string name="edit_note_noteDesc">Descrição</string>
+    <string name="edit_note_ObligationError">O campo não pode ser vazio</string>
+    <string name="edit_note_titleLengthError">Título demasiado longo</string>
+    <string name="edit_note_descLengthError">Descrição demasiada longo</string>
 
     <!--    Recycler Notes    -->
     <string name="recycler_notes_myNotes">As minhas notas</string>
+    <string name="recycler_notes_deleteAllNotes">Apagar todas</string>
+    <string name="recycler_notes_newNote">Nova</string>
+    <string name="recycler_notes_emptyNotes">Cria as tuas notas pessoais</string>
+
+    <!--    Note Delete Popup    -->
+    <string name="note_delete_popup_title">Eliminar</string>
+    <string name="note_delete_popup_message">Estas alterações não poderão ser revertidas!</string>
+    <string name="note_delete_popup_yes">Sim</string>
+    <string name="note_delete_popup_cancel">Cancelar</string>
+
+    <!--    Notes Delete Popup    -->
+    <string name="notes_delete_popup_title">Eliminar todas as notas?</string>
+    <string name="notes_delete_popup_message">Estas alterações não poderão ser revertidas!</string>
+    <string name="notes_delete_popup_yes">Sim</string>
+    <string name="notes_delete_popup_cancel">Cancelar</string>
 </resources>

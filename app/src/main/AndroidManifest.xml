@@ -20,6 +20,7 @@
         <activity android:name="commov.safecity.Home"/>
         <activity android:name="commov.safecity.Notes"/>
         <activity android:name="commov.safecity.InsertNote"/>
+        <activity android:name="commov.safecity.EditNote"/>
     </application>
 
 </manifest>

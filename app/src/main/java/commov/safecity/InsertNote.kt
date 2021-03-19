@@ -7,39 +7,76 @@ import android.text.TextUtils
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
+import com.google.android.material.textfield.TextInputLayout
+import com.wajahatkarim3.easyvalidation.core.Validator
+import com.wajahatkarim3.easyvalidation.core.view_ktx.maxLength
+import com.wajahatkarim3.easyvalidation.core.view_ktx.nonEmpty
 import commov.safecity.roomNotes.entities.Note
 import java.io.Serializable
 
 class InsertNote : AppCompatActivity() {
-    private lateinit var editNoteViewTitle: EditText
-    private lateinit var editNoteViewDesc: EditText
-    private val TAG = "addNote"
+    private val ADD_NOTE = "ADD_NOTE"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.insert_note)
 
-        editNoteViewTitle = findViewById(R.id.insert_note_noteTitle_editText)
-        editNoteViewDesc = findViewById(R.id.insert_note_noteDesc_editText)
+        val textInputLayoutTitle = findViewById<TextInputLayout>(R.id.insert_note_noteTitle_textInputLayout)
+        val textInputLayoutDesc = findViewById<TextInputLayout>(R.id.insert_note_noteDesc_textInputLayout)
 
         val buttonSaveNote = findViewById<Button>(R.id.button_saveNote)
         buttonSaveNote.setOnClickListener {
             val replyIntent = Intent()
-            if(TextUtils.isEmpty(editNoteViewTitle.text) && TextUtils.isEmpty(editNoteViewDesc.text)) {
-                setResult(Activity.RESULT_CANCELED, replyIntent)
-            } else {
-                val noteTitle = editNoteViewTitle.text.toString()
-                val noteDesc = editNoteViewDesc.text.toString()
 
-                Log.i(TAG, "Title: $noteTitle")
-                Log.i(TAG, "Desc: $noteDesc")
+            // Input Validations
+            val title = textInputLayoutTitle.editText?.text.toString().trim()
+            var validTitle = false
+            when {
+                title.isEmpty() -> {
+                    textInputLayoutTitle.error = getString(R.string.insert_note_ObligationError)
+                }
+                title.length > 50 -> {
+                    textInputLayoutTitle.error = getString(R.string.insert_note_titleLengthError)
+                }
+                else -> {
+                    textInputLayoutTitle.error = ""
+                    validTitle = true
+                }
+            }
+
+            val description = textInputLayoutDesc.editText?.text.toString().trim()
+            var validDesc = false
+            when {
+                description.isEmpty() -> {
+                    textInputLayoutDesc.error = getString(R.string.insert_note_ObligationError)
+                }
+                description.length > 160 -> {
+                    textInputLayoutDesc.error = getString(R.string.insert_note_descLengthError)
+                }
+                else -> {
+                    textInputLayoutDesc.error = ""
+                    validDesc = true
+                }
+            }
+
+            if (validTitle && validDesc) {
+                val noteTitle = textInputLayoutTitle.editText?.text.toString()
+                val noteDesc = textInputLayoutDesc.editText?.text.toString()
+
+                Log.i(ADD_NOTE, "----- InsertNote.kt -------------------------------\n")
+                Log.i(ADD_NOTE, "Title: $noteTitle")
+                Log.i(ADD_NOTE, "Desc: $noteDesc")
 
                 replyIntent.putExtra(EXTRA_REPLY_TITLE, noteTitle)
                 replyIntent.putExtra(EXTRA_REPLY_DESC, noteDesc)
                 setResult(Activity.RESULT_OK, replyIntent)
+                finish()
             }
-            finish()
         }
     }
 

@@ -7,47 +7,46 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/insert_note_screenTitle"
+        android:id="@+id/edit_note_screenTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:text="@string/insert_note_screenTitle"
+        android:text="@string/edit_note_screenTitle"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/insert_note_noteTitle"
+        android:id="@+id/edit_note_noteTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="32dp"
-        android:text="@string/insert_note_noteTitle"
+        android:text="@string/edit_note_noteTitle"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/insert_note_screenTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_note_screenTitle" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/insert_note_noteTitle_textInputLayout"
-        android:layout_width="match_parent"
+        android:id="@+id/edit_note_noteTitle_textInputLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:hint="@string/insert_note_noteTitle_editText"
         app:counterEnabled="true"
         app:counterMaxLength="50"
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/insert_note_noteTitle">
+        app:layout_constraintTop_toBottomOf="@+id/edit_note_noteTitle">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -57,33 +56,32 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/insert_note_noteDesc"
+        android:id="@+id/edit_note_noteDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="32dp"
-        android:text="@string/insert_note_noteDesc"
+        android:text="@string/edit_note_noteDesc"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/insert_note_noteTitle_textInputLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_note_noteTitle_textInputLayout" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/insert_note_noteDesc_textInputLayout"
-        android:layout_width="match_parent"
+        android:id="@+id/edit_note_noteDesc_textInputLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:hint="@string/insert_note_noteDesc_editText"
         app:counterEnabled="true"
         app:counterMaxLength="160"
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/insert_note_noteDesc">
+        app:layout_constraintTop_toBottomOf="@+id/edit_note_noteDesc">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -93,13 +91,13 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/button_saveNote"
+        android:id="@+id/button_saveEditNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/button_saveNote"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/insert_note_noteDesc_textInputLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_note_noteDesc_textInputLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
