@@ -1,4 +1,4 @@
-package commov.safedrive
+package commov.safecity
 
 import android.content.Intent
 import android.os.Bundle
