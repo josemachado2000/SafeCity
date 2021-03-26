@@ -16,9 +16,9 @@
 
     <!--    Insert Note-->
     <string name="insert_note_screenTitle">Inserir Nota</string>
-    <string name="insert_note_noteTitle">Título</string>
-    <string name="insert_note_noteDesc">Descrição</string>
+    <!--    <string name="insert_note_noteTitle">Título</string>-->
     <string name="insert_note_noteTitle_editText">Introduza um título</string>
+    <!--    <string name="insert_note_noteDesc">Descrição</string>-->
     <string name="insert_note_noteDesc_editText">Introduza uma descrição</string>
     <string name="empty_not_saved">Erro</string>
     <string name="button_saveNote">Guardar</string>
@@ -28,8 +28,10 @@
 
     <!--    Edit Note    -->
     <string name="edit_note_screenTitle">Editar nota</string>
-    <string name="edit_note_noteTitle">Título</string>
-    <string name="edit_note_noteDesc">Descrição</string>
+    <!--    <string name="edit_note_noteTitle">Título</string>-->
+    <string name="edit_note_noteTitle_editText">Título</string>
+    <!--    <string name="edit_note_noteDesc">Descrição</string>-->
+    <string name="edit_note_noteDesc_editText">Descrição</string>
     <string name="edit_note_ObligationError">O campo não pode ser vazio</string>
     <string name="edit_note_titleLengthError">Título demasiado longo</string>
     <string name="edit_note_descLengthError">Descrição demasiada longo</string>

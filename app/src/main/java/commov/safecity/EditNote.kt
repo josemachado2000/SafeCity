@@ -93,6 +93,24 @@ class EditNote : AppCompatActivity() {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        val textInputLayoutTitle: TextInputLayout = findViewById(R.id.edit_note_noteTitle_textInputLayout)
+        val textInputLayoutDesc: TextInputLayout = findViewById(R.id.edit_note_noteDesc_textInputLayout)
+        outState.putString("INSERT_TITLE", textInputLayoutTitle.editText?.text.toString())
+        outState.putString("INSERT_DESC", textInputLayoutDesc.editText?.text.toString())
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+
+        val textInputLayoutTitle: TextInputLayout = findViewById(R.id.edit_note_noteTitle_textInputLayout)
+        val textInputLayoutDesc: TextInputLayout = findViewById(R.id.edit_note_noteDesc_textInputLayout)
+        textInputLayoutTitle.editText?.setText(savedInstanceState.getString("INSERT_TITLE"))
+        textInputLayoutDesc.editText?.setText(savedInstanceState.getString("INSERT_DESC"))
+    }
+
     companion object {
         const val EXTRA_REPLY_NEW_TITLE = "com.example.android.newNoteTitle.REPLY"
         const val EXTRA_REPLY_NEW_DESC = "com.example.android.newNoteDesc.REPLY"

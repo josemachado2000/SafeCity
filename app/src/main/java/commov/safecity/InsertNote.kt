@@ -3,6 +3,7 @@ package commov.safecity
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Button
@@ -78,6 +79,24 @@ class InsertNote : AppCompatActivity() {
                 finish()
             }
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        val textInputLayoutTitle: TextInputLayout = findViewById(R.id.insert_note_noteTitle_textInputLayout)
+        val textInputLayoutDesc: TextInputLayout = findViewById(R.id.insert_note_noteDesc_textInputLayout)
+        outState.putString("INSERT_TITLE", textInputLayoutTitle.editText?.text.toString())
+        outState.putString("INSERT_DESC", textInputLayoutDesc.editText?.text.toString())
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+
+        val textInputLayoutTitle: TextInputLayout = findViewById(R.id.insert_note_noteTitle_textInputLayout)
+        val textInputLayoutDesc: TextInputLayout = findViewById(R.id.insert_note_noteDesc_textInputLayout)
+        textInputLayoutTitle.editText?.setText(savedInstanceState.getString("INSERT_TITLE"))
+        textInputLayoutDesc.editText?.setText(savedInstanceState.getString("INSERT_DESC"))
     }
 
     companion object {

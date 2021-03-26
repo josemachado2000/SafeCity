@@ -44,13 +44,12 @@ class Notes : AppCompatActivity(), NoteAdapter.OnNoteClickListener {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Add an observer on the LiveData returned by getAlphabetizedWords.
+        // Add an observer on the LiveData returned by getNotesOrderByDateDesc.
         // The onChanged() method fires when the observed data changes and the activity is
         // in the foreground.
         noteViewModel.allNotes.observe(this, { notes ->
             // Update the cached copy of the notes in the adapter.
             notes.let {
-                // adapter.setNotes(it)
                 adapter.submitList(it)
 
                 Log.i(DELETE_NOTE, "----- Notes.kt ----------------------------------")

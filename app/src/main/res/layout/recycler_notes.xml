@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:outlineAmbientShadowColor="#000000"
-    android:background="#A8A8A8">
+    android:background="@drawable/app_background">
 
     <TextView
         android:id="@+id/recycler_notes_screenTitle"
@@ -15,7 +15,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/recycler_notes_myNotes"
-        android:textColor="#2C2C2C"
+        android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +67,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:text="@string/recycler_notes_deleteAllNotes"
-        android:textColor="#2C2C2C"
+        android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

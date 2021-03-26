@@ -35,7 +35,7 @@ public abstract class NoteDB : RoomDatabase() {
             noteDao.deleteAllNotes()
 
             // Add sample notes.
-            // var note = Note(1, "title1", "desc1")
+            // var note = Note(1, "title1", "desc1", "20/03/2021 10:30")
             // noteDao.insertNote(note)
         }
     }

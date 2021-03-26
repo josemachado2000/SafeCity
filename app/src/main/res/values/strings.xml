@@ -19,9 +19,9 @@
 
     <!--    Insert Note    -->
     <string name="insert_note_screenTitle">Insert Note</string>
-    <string name="insert_note_noteTitle">Title</string>
+    <!--    <string name="insert_note_noteTitle">Title</string>-->
     <string name="insert_note_noteTitle_editText">Enter a title</string>
-    <string name="insert_note_noteDesc">Description</string>
+    <!--    <string name="insert_note_noteDesc">Description</string>-->
     <string name="insert_note_noteDesc_editText">Enter a description</string>
     <string name="empty_not_saved">Error</string>
     <string name="button_saveNote">Save</string>
@@ -31,8 +31,10 @@
 
     <!--    Edit Note    -->
     <string name="edit_note_screenTitle">Edit Note</string>
-    <string name="edit_note_noteTitle">Title</string>
-    <string name="edit_note_noteDesc">Description</string>
+    <!--    <string name="edit_note_noteTitle">Title</string>-->
+    <string name="edit_note_noteTitle_editText">Title</string>
+    <!--    <string name="edit_note_noteDesc">Description</string>-->
+    <string name="edit_note_noteDesc_editText">Description</string>
     <string name="edit_note_ObligationError">Field can´t be empty</string>
     <string name="edit_note_titleLengthError">Title too long</string>
     <string name="edit_note_descLengthError">Description too long</string>
