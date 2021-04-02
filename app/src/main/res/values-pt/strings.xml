@@ -53,4 +53,10 @@
     <string name="notes_delete_popup_message">Estas alterações não poderão ser revertidas!</string>
     <string name="notes_delete_popup_yes">Sim</string>
     <string name="notes_delete_popup_cancel">Cancelar</string>
+
+    <!--    Login    -->
+    <string name="login_loginTitle">Login</string>
+    <string name="login_username_hint">Introduza um username</string>
+    <string name="login_password_hint">Introduza uma password</string>
+    <string name="login_buttonLogin">Login</string>
 </resources>
