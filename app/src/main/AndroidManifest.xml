@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="commov.safecity">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".roomNotes.NotesApplication"
         android:allowBackup="true"
@@ -21,5 +23,6 @@
         <activity android:name="commov.safecity.Notes"/>
         <activity android:name="commov.safecity.InsertNote"/>
         <activity android:name="commov.safecity.EditNote"/>
+        <activity android:name="commov.safecity.Login"/>
     </application>
 </manifest>
