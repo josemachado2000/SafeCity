@@ -59,4 +59,8 @@
     <string name="login_username_hint">Introduza um username</string>
     <string name="login_password_hint">Introduza uma password</string>
     <string name="login_buttonLogin">Login</string>
+    <!--    Login Shared Preferences    -->
+    <string name="login_preference_file">loginPreferenceFile</string>
+    <string name="logged">logged</string>
+    <string name="loggedUsername">loggedUsername</string>
 </resources>
