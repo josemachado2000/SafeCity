@@ -10,6 +10,7 @@
 
     <!--    Menu    -->
     <string name="login">Login</string>
+    <string name="logout">Logout</string>
     <string name="register">Registar</string>
     <string name="notes">Notas</string>
     <string name="about">Sobre</string>

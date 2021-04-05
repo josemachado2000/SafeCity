@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.welcome)
 
         Handler(Looper.getMainLooper()).postDelayed({
-            var intent = Intent(this, Notes::class.java)
+            val intent = Intent(this, Notes::class.java)
             startActivity(intent)
             finish()
         }, 2000)
