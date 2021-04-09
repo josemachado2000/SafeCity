@@ -212,4 +212,4 @@ class Notes : AppCompatActivity(), NoteAdapter.OnNoteClickListener {
 //            else -> super.onOptionsItemSelected(item)
 //        }
 //    }
-}
+
