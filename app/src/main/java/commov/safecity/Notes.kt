@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -178,34 +177,39 @@ class Notes : AppCompatActivity(), NoteAdapter.OnNoteClickListener {
             }
         }
     }
+}
 
 //    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        val inflater: MenuInflater = menuInflater
-//        inflater.inflate(R.menu.game_menu, menu)
-//        return true
+//        val loginSharedPref: SharedPreferences = getSharedPreferences(getString(R.string.login_preference_file), Context.MODE_PRIVATE)
+//        return if (loginSharedPref.getBoolean("logged", false)) {
+//            val inflater: MenuInflater = menuInflater
+//            inflater.inflate(R.menu.non_logged_menu, menu)
+//            true
+//        } else {
+//            val inflater: MenuInflater = menuInflater
+//            inflater.inflate(R.menu.logged_menu, menu)
+//            true
+//        }
 //    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle item selection
-        return when (item.itemId) {
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        // Handle item selection
+//        return when (item.itemId) {
 //            R.id.login -> {
-//                val intent = Intent(this@Home, Login::class.java)
+//                val intent = Intent(this@Notes, Login::class.java)
 //                startActivity(intent)
 //                true
 //            }
 //            R.id.logout -> {
-//                val intent = Intent(this@Home, Login::class.java)
+//
+//                true
+//            }
+//            R.id.notes -> {
+//                val intent = Intent(this@Notes, Notes::class.java)
 //                startActivity(intent)
 //                true
 //            }
-            R.id.notes -> {
-                val intent = Intent(this@Notes, Notes::class.java)
-                startActivity(intent)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
+//            else -> super.onOptionsItemSelected(item)
+//        }
+//    }
 }
-
-

@@ -57,4 +57,17 @@
     <string name="notes_delete_popup_message">These changes cannot be reversed!</string>
     <string name="notes_delete_popup_yes">Yes</string>
     <string name="notes_delete_popup_cancel">Cancel</string>
+
+    <!--    Login    -->
+    <string name="login_loginTitle">Login</string>
+    <string name="login_username_hint">Enter a username</string>
+    <string name="login_username_ObligationError">Verify that you have entered a username</string>
+    <string name="login_password_hint">Enter a password</string>
+    <string name="login_password_ObligationError">Verify that you have entered a password</string>
+    <string name="login_buttonLogin">Login</string>
+    <string name="login_failedLoginError">Username or password is incorrect!</string>
+    <!--    Login Shared Preferences    -->
+    <string name="login_preference_file">loginPreferenceFile</string>
+    <string name="logged">logged</string>
+    <string name="loggedUsername">loggedUsername</string>
 </resources>
