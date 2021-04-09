@@ -57,8 +57,11 @@
     <!--    Login    -->
     <string name="login_loginTitle">Login</string>
     <string name="login_username_hint">Introduza um username</string>
+    <string name="login_username_ObligationError">Verifique que introduziu um username</string>
     <string name="login_password_hint">Introduza uma password</string>
+    <string name="login_password_ObligationError">Verifique que introduziu uma password</string>
     <string name="login_buttonLogin">Login</string>
+    <string name="login_failedLoginError">Username ou password está incorreto!</string>
     <!--    Login Shared Preferences    -->
     <string name="login_preference_file">loginPreferenceFile</string>
     <string name="logged">logged</string>

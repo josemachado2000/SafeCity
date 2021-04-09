@@ -1,10 +1,15 @@
 package commov.safecity
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -177,26 +182,38 @@ class Notes : AppCompatActivity(), NoteAdapter.OnNoteClickListener {
             }
         }
     }
-}
 
-// DEPRECATED CODE
-//    val intent = Intent(this@Notes, InsertNote::class.java)
-//    startActivityForResult(intent, newNoteActivityRequestCode)
-//
-//
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, intentData)
-//
-//        if (requestCode == newNoteActivityRequestCode && resultCode == Activity.RESULT_OK) {
-//            intentData?.getStringExtra(InsertNote.EXTRA_REPLY)?.let {
-//                val note = Note(title = it, description = it)
-//                noteViewModel.insertNote(note)
-//            }
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        val loginSharedPref: SharedPreferences = getSharedPreferences(getString(R.string.login_preference_file), Context.MODE_PRIVATE)
+//        return if (loginSharedPref.getBoolean("logged", false)) {
+//            val inflater: MenuInflater = menuInflater
+//            inflater.inflate(R.menu.non_logged_menu, menu)
+//            true
 //        } else {
-//            Toast.makeText(
-//                applicationContext,
-//                R.string.empty_not_saved,
-//                Toast.LENGTH_LONG
-//            ).show()
+//            val inflater: MenuInflater = menuInflater
+//            inflater.inflate(R.menu.logged_menu, menu)
+//            true
 //        }
 //    }
+
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        // Handle item selection
+//        return when (item.itemId) {
+//            R.id.login -> {
+//                val intent = Intent(this@Notes, Login::class.java)
+//                startActivity(intent)
+//                true
+//            }
+//            R.id.logout -> {
+//
+//                true
+//            }
+//            R.id.notes -> {
+//                val intent = Intent(this@Notes, Notes::class.java)
+//                startActivity(intent)
+//                true
+//            }
+//            else -> super.onOptionsItemSelected(item)
+//        }
+//    }
+}

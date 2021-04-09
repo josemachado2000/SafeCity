@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/app_background">
@@ -29,6 +30,7 @@
         android:layout_marginEnd="50dp"
         android:layout_marginRight="50dp"
         android:hint="@string/login_username_hint"
+        app:endIconMode="clear_text"
         app:boxBackgroundColor="@color/light_gray"
         app:boxCornerRadiusBottomEnd="10dp"
         app:boxCornerRadiusBottomStart="10dp"
@@ -67,6 +69,7 @@
         app:boxCornerRadiusTopEnd="10dp"
         app:boxCornerRadiusTopStart="10dp"
         app:boxStrokeColor="@color/black"
+        app:endIconMode="password_toggle"
         app:errorEnabled="true"
         app:hintTextAppearance="@style/TextAppearance.AppCompat.Body2"
         app:hintTextColor="@android:color/darker_gray"
@@ -83,14 +86,29 @@
             android:textStyle="bold" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+        android:id="@+id/login_failedLoginError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginRight="50dp"
+        android:text="@string/login_failedLoginError"
+        android:textColor="#FF0000"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_password_TextInputLayout" />
+
     <Button
         android:id="@+id/login_buttonLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="@string/login_buttonLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_password_TextInputLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/login_failedLoginError" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
