@@ -1,9 +1,13 @@
 package commov.safecity
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -15,6 +19,7 @@ import com.github.razir.progressbutton.bindProgressButton
 import com.github.razir.progressbutton.hideProgress
 import com.github.razir.progressbutton.showProgress
 import com.google.android.material.textfield.TextInputLayout
+import com.wajahatkarim3.easyvalidation.core.view_ktx.nonEmpty
 import commov.safecity.api.EndPoints
 import commov.safecity.api.LoginPostResponse
 import commov.safecity.api.ServiceBuilder
@@ -70,16 +75,15 @@ class Login : AppCompatActivity() {
                             val user: LoginPostResponse = response.body()!!
                             Toast.makeText(this@Login, user.id.toString().plus("   ->   ").plus(user.username), Toast.LENGTH_SHORT).show()
 
-//                            Handler(Looper.getMainLooper()).postDelayed({
-//
-//                            }, 2000)
-
                             val loginSharedPref: SharedPreferences = getSharedPreferences(getString(R.string.login_preference_file), Context.MODE_PRIVATE)
                             with(loginSharedPref.edit()) {
                                 putBoolean(getString(R.string.logged), true)
                                 putString(getString(R.string.loggedUsername), username)
                                 apply()
                             }
+
+                            val intent = Intent(this@Login, Home::class.java)
+                            startActivity(intent)
                         }
                     }
 
@@ -89,5 +93,52 @@ class Login : AppCompatActivity() {
                 })
             }
         }
+    }
+
+    // Menu
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.non_logged_menu, menu)
+        val loginItem = menu.findItem(R.id.login)
+        val aboutItem = menu.findItem(R.id.about)
+        loginItem.isVisible = false
+        aboutItem.isVisible = false
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle item selection
+        return when (item.itemId) {
+            R.id.notes -> {
+                val intent = Intent(this@Login, Notes::class.java)
+                startActivity(intent)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        val loginFailedError: TextView = findViewById(R.id.login_failedLoginError)
+        val textInputLayoutUsername: TextInputLayout = findViewById(R.id.login_username_TextInputLayout)
+        val textInputLayoutPassword: TextInputLayout = findViewById(R.id.login_password_TextInputLayout)
+        outState.putInt("LOGIN_FAILED_ERROR_VISIBILITY", loginFailedError.visibility)
+        outState.putString("LOGIN_USERNAME", textInputLayoutUsername.editText?.text.toString())
+        outState.putString("LOGIN_PASSWORD", textInputLayoutPassword.editText?.text.toString())
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+
+        val loginFailedError: TextView = findViewById(R.id.login_failedLoginError)
+        val textInputLayoutUsername: TextInputLayout = findViewById(R.id.login_username_TextInputLayout)
+        val textInputLayoutPassword: TextInputLayout = findViewById(R.id.login_password_TextInputLayout)
+        Toast.makeText(this, loginFailedError.visibility.toString(), Toast.LENGTH_SHORT).show()
+        if(loginFailedError.visibility == 4 && savedInstanceState.getString("LOGIN_USERNAME")?.nonEmpty() == true &&
+                savedInstanceState.getString("LOGIN_PASSWORD")?.nonEmpty() == true) { loginFailedError.isVisible = true }
+        textInputLayoutUsername.editText?.setText(savedInstanceState.getString("LOGIN_USERNAME"))
+        textInputLayoutPassword.editText?.setText(savedInstanceState.getString("LOGIN_PASSWORD"))
     }
 }

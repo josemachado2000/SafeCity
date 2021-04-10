@@ -1,10 +1,16 @@
 package commov.safecity
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
+import android.text.method.TextKeyListener.clear
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -177,39 +183,50 @@ class Notes : AppCompatActivity(), NoteAdapter.OnNoteClickListener {
             }
         }
     }
+
+    // Menu
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val loginSharedPref: SharedPreferences = getSharedPreferences(getString(R.string.login_preference_file), Context.MODE_PRIVATE)
+        return if (loginSharedPref.getBoolean("logged", false)) {
+            val inflater: MenuInflater = menuInflater
+            inflater.inflate(R.menu.logged_menu, menu)
+            val notesItem = menu.findItem(R.id.notes)
+            val aboutItem = menu.findItem(R.id.about)
+            notesItem.isVisible = false
+            aboutItem.isVisible = false
+            true
+        } else {
+            val inflater: MenuInflater = menuInflater
+            inflater.inflate(R.menu.non_logged_menu, menu)
+            val notesItem = menu.findItem(R.id.notes)
+            val aboutItem = menu.findItem(R.id.about)
+            notesItem.isVisible = false
+            aboutItem.isVisible = false
+            true
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle item selection
+        return when (item.itemId) {
+            R.id.login -> {
+                val intent = Intent(this@Notes, Login::class.java)
+                startActivity(intent)
+                true
+            }
+            R.id.logout -> {
+                val loginSharedPref: SharedPreferences = getSharedPreferences(getString(R.string.login_preference_file), Context.MODE_PRIVATE)
+                with(loginSharedPref.edit()) {
+                    clear()
+                    apply()
+                }
+
+                val intent = Intent(this@Notes, Login::class.java)
+                startActivity(intent)
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 }
-
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        val loginSharedPref: SharedPreferences = getSharedPreferences(getString(R.string.login_preference_file), Context.MODE_PRIVATE)
-//        return if (loginSharedPref.getBoolean("logged", false)) {
-//            val inflater: MenuInflater = menuInflater
-//            inflater.inflate(R.menu.non_logged_menu, menu)
-//            true
-//        } else {
-//            val inflater: MenuInflater = menuInflater
-//            inflater.inflate(R.menu.logged_menu, menu)
-//            true
-//        }
-//    }
-
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        // Handle item selection
-//        return when (item.itemId) {
-//            R.id.login -> {
-//                val intent = Intent(this@Notes, Login::class.java)
-//                startActivity(intent)
-//                true
-//            }
-//            R.id.logout -> {
-//
-//                true
-//            }
-//            R.id.notes -> {
-//                val intent = Intent(this@Notes, Notes::class.java)
-//                startActivity(intent)
-//                true
-//            }
-//            else -> super.onOptionsItemSelected(item)
-//        }
-//    }
-
