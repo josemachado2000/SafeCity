@@ -12,9 +12,6 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.core.view.isInvisible
-import androidx.core.view.isVisible
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -23,7 +20,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import commov.safecity.api.Anomaly
 import commov.safecity.api.EndPoints
-import commov.safecity.api.LoginPostResponse
 import commov.safecity.api.ServiceBuilder
 import retrofit2.Call
 import retrofit2.Callback
@@ -49,10 +45,8 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
                     val anomalies = response.body()!!
                     for (anomaly in anomalies) {
                         val latlng = LatLng(anomaly.location.lat, anomaly.location.lng)
-                        map.addMarker(MarkerOptions().position(latlng).title(anomaly.local))
+                        map.addMarker(MarkerOptions().position(latlng).title(anomaly.local).snippet(anomaly.description))
                     }
-
-
                 }
             }
 
@@ -65,23 +59,20 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
     // Location Permission
     private val REQUEST_LOCATION_PERMISSION = 1
 
-    private fun isPermissionGranted() : Boolean {
-        return ContextCompat.checkSelfPermission(
-            this,
-            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-    }
-
     private fun enableMyLocation() {
-        if (isPermissionGranted()) {
-            map.isMyLocationEnabled = true
-        }
-        else {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            // public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
             ActivityCompat.requestPermissions(
-                this,
-                arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION),
-                REQUEST_LOCATION_PERMISSION
+                    this,
+                    arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION),
+                    REQUEST_LOCATION_PERMISSION
             )
-        }
+            return
+        } else { map.isMyLocationEnabled = true }
     }
 
     override fun onRequestPermissionsResult(
@@ -99,11 +90,14 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
 
-        // Add a marker in Sydney and move the camera
-        val viana = LatLng(41.6918, -8.8344)
-        // map.addMarker(MarkerOptions().position(viana).title("Marker in Viana do Castelo"))
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(viana, 15f))
+        val vianaLatLng = LatLng(41.6918, -8.8344)
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(vianaLatLng, 15f))
         enableMyLocation()
+
+        map.setOnMarkerClickListener {
+            map.setInfoWindowAdapter(MarkerInfoWindow(this))
+            false
+        }
     }
 
     // Menu

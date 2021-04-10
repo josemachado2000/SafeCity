@@ -67,4 +67,7 @@
     <string name="login_preference_file">loginPreferenceFile</string>
     <string name="logged">logged</string>
     <string name="loggedUsername">loggedUsername</string>
+
+    <!--    Marker Info Window    -->
+    <string name="marker_visualize_button">Visualizar</string>
 </resources>
