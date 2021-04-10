@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             Toast.makeText(this, loginSharedPref.getString("loggedUsername", ""), Toast.LENGTH_SHORT).show()
             if (loginSharedPref.getBoolean("logged", false)) {
-                val intent = Intent(this, Notes::class.java)
+                val intent = Intent(this, Home::class.java)
                 startActivity(intent)
                 finish()
             } else {
