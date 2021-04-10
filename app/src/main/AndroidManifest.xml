@@ -3,6 +3,7 @@
     package="commov.safecity">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".roomNotes.NotesApplication"
@@ -13,8 +14,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SafeCity">
-        <activity android:name="commov.safecity.MainActivity"
-        android:theme="@style/Theme.SafeDrive">
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
