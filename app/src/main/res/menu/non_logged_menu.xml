@@ -4,11 +4,7 @@
 
     <item android:id="@+id/login"
         android:title="@string/login"
-        app:showAsAction="always" />
-
-    <item android:id="@+id/register"
-        android:title="@string/register"
-        app:showAsAction="never"/>
+        app:showAsAction="ifRoom" />
 
     <item android:id="@+id/notes"
         android:title="@string/notes"

@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "SafeDrive"
+rootProject.name = "SafeCity"

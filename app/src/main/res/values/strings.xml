@@ -1,17 +1,73 @@
 <resources>
     <!--    APP    -->
-    <string name="app_name">SafeDrive</string>
+    <string name="app_name">SafeCity</string>
     <string name="appImage">appImage</string>
 
     <!--    Welcome    -->
     <string name="welcome">Welcome</string>
-    <string name="slogan">For safer driving!</string>
+    <string name="slogan">For safer city!</string>
 
     <!--    Menu    -->
     <string name="login">Login</string>
+    <string name="logout">Logout</string>
     <string name="register">Register</string>
     <string name="notes">Notes</string>
     <string name="about">About</string>
 
+    <!--    Note Recycler    -->
+    <!--    <string name="recycler_note_title">Login</string>-->
+    <!--    <string name="recycler_note_description">Register</string>-->
 
+    <!--    Insert Note    -->
+    <string name="insert_note_screenTitle">Insert Note</string>
+    <!--    <string name="insert_note_noteTitle">Title</string>-->
+    <string name="insert_note_noteTitle_editText">Enter a title</string>
+    <!--    <string name="insert_note_noteDesc">Description</string>-->
+    <string name="insert_note_noteDesc_editText">Enter a description</string>
+    <string name="empty_not_saved">Error</string>
+    <string name="button_saveNote">Save</string>
+    <string name="insert_note_ObligationError">Field can´t be empty</string>
+    <string name="insert_note_titleLengthError">Title too long</string>
+    <string name="insert_note_descLengthError">Description too long</string>
+
+    <!--    Edit Note    -->
+    <string name="edit_note_screenTitle">Edit Note</string>
+    <!--    <string name="edit_note_noteTitle">Title</string>-->
+    <string name="edit_note_noteTitle_editText">Title</string>
+    <!--    <string name="edit_note_noteDesc">Description</string>-->
+    <string name="edit_note_noteDesc_editText">Description</string>
+    <string name="edit_note_ObligationError">Field can´t be empty</string>
+    <string name="edit_note_titleLengthError">Title too long</string>
+    <string name="edit_note_descLengthError">Description too long</string>
+
+    <!--    Recycler Notes    -->
+    <string name="recycler_notes_myNotes">My notes</string>
+    <string name="recycler_notes_deleteAllNotes">Delete all</string>
+    <string name="recycler_notes_newNote">New</string>
+    <string name="recycler_notes_emptyNotes">Create your personal notes</string>
+
+    <!--    Note Delete Popup    -->
+    <string name="note_delete_popup_title">Delete</string>
+    <string name="note_delete_popup_message">These changes cannot be reversed!</string>
+    <string name="note_delete_popup_yes">Yes</string>
+    <string name="note_delete_popup_cancel">Cancel</string>
+
+    <!--    Notes Delete Popup    -->
+    <string name="notes_delete_popup_title">Delete all Notes?</string>
+    <string name="notes_delete_popup_message">These changes cannot be reversed!</string>
+    <string name="notes_delete_popup_yes">Yes</string>
+    <string name="notes_delete_popup_cancel">Cancel</string>
+
+    <!--    Login    -->
+    <string name="login_loginTitle">Login</string>
+    <string name="login_username_hint">Enter a username</string>
+    <string name="login_username_ObligationError">Verify that you have entered a username</string>
+    <string name="login_password_hint">Enter a password</string>
+    <string name="login_password_ObligationError">Verify that you have entered a password</string>
+    <string name="login_buttonLogin">Login</string>
+    <string name="login_failedLoginError">Username or password is incorrect!</string>
+    <!--    Login Shared Preferences    -->
+    <string name="login_preference_file">loginPreferenceFile</string>
+    <string name="logged">logged</string>
+    <string name="loggedUsername">loggedUsername</string>
 </resources>
