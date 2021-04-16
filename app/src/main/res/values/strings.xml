@@ -13,6 +13,7 @@
     <string name="register">Register</string>
     <string name="notes">Notes</string>
     <string name="about">About</string>
+    <string name="anomaliesMap">Anomalies</string>
 
     <!--    Note Recycler    -->
     <!--    <string name="recycler_note_title">Login</string>-->

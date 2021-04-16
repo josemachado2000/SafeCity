@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -12,6 +13,8 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -27,14 +30,18 @@ import retrofit2.Response
 
 class Home : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var map: GoogleMap
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.google_map)
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         val request = ServiceBuilder.buildService(EndPoints::class.java)
         val call = request.getAnomalies()
@@ -90,9 +97,13 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
 
-        val vianaLatLng = LatLng(41.6918, -8.8344)
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(vianaLatLng, 15f))
         enableMyLocation()
+        fusedLocationClient.lastLocation.addOnSuccessListener { location : Location? ->
+            // Got last known location. In some rare situations this can be null.
+            val currentLocation = location?.let { LatLng(it.latitude, location.longitude) }
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15f))
+
+        }
 
         map.setOnMarkerClickListener {
             map.setInfoWindowAdapter(MarkerInfoWindow(this))
@@ -105,11 +116,11 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
         val loginSharedPref: SharedPreferences = getSharedPreferences(getString(R.string.login_preference_file), Context.MODE_PRIVATE)
         return if (loginSharedPref.getBoolean("logged", false)) {
             val inflater: MenuInflater = menuInflater
-            inflater.inflate(R.menu.non_logged_menu, menu)
+            inflater.inflate(R.menu.logged_menu, menu)
             true
         } else {
             val inflater: MenuInflater = menuInflater
-            inflater.inflate(R.menu.logged_menu, menu)
+            inflater.inflate(R.menu.non_logged_menu, menu)
             true
         }
     }
@@ -128,6 +139,9 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
                     clear()
                     apply()
                 }
+
+                val intent = Intent(this@Home, Login::class.java)
+                startActivity(intent)
                 true
             }
             R.id.notes -> {

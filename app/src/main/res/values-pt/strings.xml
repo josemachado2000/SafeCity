@@ -14,6 +14,7 @@
     <string name="register">Registar</string>
     <string name="notes">Notas</string>
     <string name="about">Sobre</string>
+    <string name="anomaliesMap">Anomalias</string>
 
     <!--    Insert Note-->
     <string name="insert_note_screenTitle">Inserir Nota</string>

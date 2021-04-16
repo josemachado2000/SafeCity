@@ -3,7 +3,6 @@ package commov.safecity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -14,10 +13,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
-import com.github.razir.progressbutton.attachTextChangeAnimator
-import com.github.razir.progressbutton.bindProgressButton
-import com.github.razir.progressbutton.hideProgress
-import com.github.razir.progressbutton.showProgress
 import com.google.android.material.textfield.TextInputLayout
 import com.wajahatkarim3.easyvalidation.core.view_ktx.nonEmpty
 import commov.safecity.api.EndPoints
@@ -100,15 +95,18 @@ class Login : AppCompatActivity() {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.non_logged_menu, menu)
         val loginItem = menu.findItem(R.id.login)
-        val aboutItem = menu.findItem(R.id.about)
         loginItem.isVisible = false
-        aboutItem.isVisible = false
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle item selection
         return when (item.itemId) {
+            R.id.anomaliesMap -> {
+                val intent = Intent(this@Login, Home::class.java)
+                startActivity(intent)
+                true
+            }
             R.id.notes -> {
                 val intent = Intent(this@Login, Notes::class.java)
                 startActivity(intent)
