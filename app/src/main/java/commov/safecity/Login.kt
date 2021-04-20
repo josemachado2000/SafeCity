@@ -74,6 +74,7 @@ class Login : AppCompatActivity() {
                             with(loginSharedPref.edit()) {
                                 putBoolean(getString(R.string.logged), true)
                                 putString(getString(R.string.loggedUsername), username)
+                                putInt(getString(R.string.loggedUserID), user.id)
                                 apply()
                             }
 

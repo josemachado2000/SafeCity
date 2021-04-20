@@ -71,7 +71,19 @@
     <string name="login_preference_file">loginPreferenceFile</string>
     <string name="logged">logged</string>
     <string name="loggedUsername">loggedUsername</string>
+    <string name="loggedUserID">loggedUserID</string>
 
     <!--    Marker Info Window    -->
     <string name="marker_visualize_button">Visualize</string>
+
+    <!--    Home    -->
+    <string name="home_satellite_radioButton">Satellite</string>
+    <string name="home_terrain_radioButton">Terrain</string>
+    <string name="home_newAnomaly">New Anomaly</string>
+
+    <!--    Insert Anomaly    -->
+    <string name="insert_anomaly_screenTitle">Report Anomaly</string>
+    <string name="insert_anomaly_title_editText">Enter a title</string>
+    <string name="insert_anomaly_description_editText">Enter a description</string>
+    <string name="insert_anomaly_photo_button">Enter photo</string>
 </resources>

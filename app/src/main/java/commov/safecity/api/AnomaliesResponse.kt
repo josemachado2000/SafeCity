@@ -6,8 +6,10 @@ data class Anomaly(
     val id: Int,
     val local: String,
     val description: String,
+    val type: String,
     val location: AnomalyLocation,
-    val photo: Blob
+    val photo: String,
+    val userID: Int
 )
 
 data class AnomalyLocation(

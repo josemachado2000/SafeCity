@@ -1,5 +1,6 @@
 package commov.safecity
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.view.View
 import android.widget.TextView
@@ -7,6 +8,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
 
 class MarkerInfoWindow(context: Activity) : GoogleMap.InfoWindowAdapter {
+        @SuppressLint("InflateParams")
         private var window = context.layoutInflater.inflate(R.layout.marker_infowindow, null)
 
         private fun bindWindowText(marker: Marker, view: View){
