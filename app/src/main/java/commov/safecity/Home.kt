@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
@@ -26,7 +27,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import commov.safecity.api.Anomaly
@@ -35,6 +35,8 @@ import commov.safecity.api.ServiceBuilder
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.Serializable
+import java.util.ArrayList
 
 class Home : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var map: GoogleMap
@@ -51,42 +53,11 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        val loginSharedPref: SharedPreferences = getSharedPreferences(getString(R.string.login_preference_file), Context.MODE_PRIVATE)
-        val userID = loginSharedPref.getInt("loggedUserID", 0)
-
-        val request = ServiceBuilder.buildService(EndPoints::class.java)
-        val call = request.getAnomalies()
-
-        call.enqueue(object : Callback<List<Anomaly>> {
-            override fun onResponse(call: Call<List<Anomaly>>, response: Response<List<Anomaly>>) {
-                if (response.isSuccessful) {
-                    Log.i("Response", response.body().toString())
-                    val anomalies = response.body()!!
-                    for (anomaly in anomalies) {
-                        if(anomaly.userID == userID) {
-                            val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
-                            map.addMarker(MarkerOptions()
-                                    .position(markerLatLng)
-                                    .title(anomaly.local)
-                                    .snippet(anomaly.description)
-                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-                            )
-                        } else {
-                            val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
-                            map.addMarker(MarkerOptions()
-                                    .position(markerLatLng)
-                                    .title(anomaly.local)
-                                    .snippet(anomaly.description)
-                            )
-                        }
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<List<Anomaly>>, t: Throwable) {
-                Toast.makeText(this@Home, "Failed to get Anomalies", Toast.LENGTH_SHORT).show()
-            }
-        })
+        val fabInsertAnomaly = findViewById<FloatingActionButton>(R.id.home_fab_insertAnomaly)
+        fabInsertAnomaly.setOnClickListener {
+            val intent = Intent(this@Home, InsertAnomaly::class.java)
+            startActivity(intent)
+        }
     }
 
     // Location Permission
@@ -119,8 +90,47 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
         map = googleMap
         map.uiSettings.isZoomControlsEnabled = true
 
+        val loginSharedPref: SharedPreferences = getSharedPreferences(getString(R.string.login_preference_file), Context.MODE_PRIVATE)
+        val userID = loginSharedPref.getInt("loggedUserID", 0)
+
+        val request = ServiceBuilder.buildService(EndPoints::class.java)
+        val call = request.getAnomalies()
+
+        var anomalies: List<Anomaly> = listOf()
+        call.enqueue(object : Callback<List<Anomaly>> {
+            override fun onResponse(call: Call<List<Anomaly>>, response: Response<List<Anomaly>>) {
+                if (response.isSuccessful) {
+                    Log.i("Response", response.body().toString())
+                    anomalies = response.body()!!
+                    for (anomaly in anomalies) {
+                        if(anomaly.userID == userID) {
+                            val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
+                            map.addMarker(MarkerOptions()
+                                    .position(markerLatLng)
+                                    .title(anomaly.title)
+                                    .snippet(anomaly.description)
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                            )
+                        } else {
+                            val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
+                            map.addMarker(MarkerOptions()
+                                    .position(markerLatLng)
+                                    .title(anomaly.title)
+                                    .snippet(anomaly.description)
+                            )
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<List<Anomaly>>, t: Throwable) {
+                Toast.makeText(this@Home, "Failed to get Anomalies", Toast.LENGTH_SHORT).show()
+            }
+        })
+
         // enableMyLocation()
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                     this,
                     arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION),
@@ -131,9 +141,11 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
             map.isMyLocationEnabled = true
             fusedLocationClient.lastLocation.addOnSuccessListener { location : Location? ->
                 // Got last known location. In some rare situations this can be null.
-                val currentLocation = location?.let { LatLng(it.latitude, location.longitude) }
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16f))
-
+                if (location != null) {
+                    Log.i("Location", location.toString())
+                    val currentLocation = LatLng(location.latitude, location.longitude)
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16f))
+                }
             }
         }
 
@@ -189,6 +201,7 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
 
                 val intent = Intent(this@Home, Login::class.java)
                 startActivity(intent)
+                finishAffinity()
                 true
             }
             R.id.notes -> {

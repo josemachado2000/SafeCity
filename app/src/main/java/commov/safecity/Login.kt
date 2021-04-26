@@ -80,6 +80,7 @@ class Login : AppCompatActivity() {
 
                             val intent = Intent(this@Login, Home::class.java)
                             startActivity(intent)
+                            finish()
                         }
                     }
 
@@ -97,6 +98,8 @@ class Login : AppCompatActivity() {
         inflater.inflate(R.menu.non_logged_menu, menu)
         val loginItem = menu.findItem(R.id.login)
         loginItem.isVisible = false
+        val anomaliesItem = menu.findItem(R.id.anomaliesMap)
+        anomaliesItem.isVisible = false
         return true
     }
 

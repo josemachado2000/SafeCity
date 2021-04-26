@@ -2,6 +2,7 @@
     <!--    APP    -->
     <string name="app_name">SafeCity</string>
     <string name="appImage">appImage</string>
+    <string name="imgur_clientID" translatable="false">a5ee927b1b18f1e</string>
 
     <!--    Welcome    -->
     <string name="welcome">Welcome</string>
@@ -86,4 +87,5 @@
     <string name="insert_anomaly_title_editText">Enter a title</string>
     <string name="insert_anomaly_description_editText">Enter a description</string>
     <string name="insert_anomaly_photo_button">Enter photo</string>
+    <string name="insert_anomaly_saveAnomaly_button">Save</string>
 </resources>
