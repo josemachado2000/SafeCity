@@ -82,6 +82,12 @@
     <string name="insert_anomaly_screenTitle">Reportar Anomalia</string>
     <string name="insert_anomaly_title_editText">Introduza um título</string>
     <string name="insert_anomaly_description_editText">Introduza uma descrição</string>
-    <string name="insert_anomaly_photo_button">Adicionar fotografia</string>
+    <!-- <string name="insert_anomaly_photo_button">Adicionar fotografia</string> -->
     <string name="insert_anomaly_saveAnomaly_button">Guardar</string>
+    <string name="insert_anomaly_spinnerDefaultValue">Selecione o tipo</string>
+    <string name="insert_anomaly_ObligationError">O campo não pode ser vazio</string>
+    <string name="insert_anomaly_titleLengthError">Título demasiado longo</string>
+    <string name="insert_anomaly_descLengthError">Descrição demasiada longo</string>
+    <string name="insert_anomaly_emptySpinnerMessage">Selecione um tipo de anomalia</string>
+    <string name="insert_anomaly_uploadPhotoMessage">Faça upload de uma imagem</string>
 </resources>

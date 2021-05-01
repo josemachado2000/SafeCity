@@ -86,6 +86,12 @@
     <string name="insert_anomaly_screenTitle">Report Anomaly</string>
     <string name="insert_anomaly_title_editText">Enter a title</string>
     <string name="insert_anomaly_description_editText">Enter a description</string>
-    <string name="insert_anomaly_photo_button">Enter photo</string>
+    <!-- <string name="insert_anomaly_photo_button">Enter photo</string> -->
     <string name="insert_anomaly_saveAnomaly_button">Save</string>
+    <string name="insert_anomaly_spinnerDefaultValue">Select type</string>
+    <string name="insert_anomaly_ObligationError">Field can´t be empty</string>
+    <string name="insert_anomaly_titleLengthError">Title too long</string>
+    <string name="insert_anomaly_descLengthError">Description too long</string>
+    <string name="insert_anomaly_emptySpinnerMessage">Select an anomaly type</string>
+    <string name="insert_anomaly_uploadPhotoMessage">Upload an image</string>
 </resources>

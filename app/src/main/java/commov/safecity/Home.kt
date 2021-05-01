@@ -1,6 +1,7 @@
 package commov.safecity
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -42,6 +43,7 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var map: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
+    @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.google_map)
@@ -55,21 +57,30 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
 
         val fabInsertAnomaly = findViewById<FloatingActionButton>(R.id.home_fab_insertAnomaly)
         fabInsertAnomaly.setOnClickListener {
-            val intent = Intent(this@Home, InsertAnomaly::class.java)
-            startActivity(intent)
+            enableMyLocation()
+            fusedLocationClient.lastLocation.addOnSuccessListener { location : Location? ->
+                // Got last known location. In some rare situations this can be null.
+                if (location != null) {
+                    Log.i("InsertAnomaly", location.toString())
+                    val currentLocation = LatLng(location.latitude, location.longitude)
+
+                    val intent = Intent(this@Home, InsertAnomaly::class.java).apply { putExtra("currentLocation", currentLocation) }
+                    startActivity(intent)
+                }
+            }
+        }
+
+        val loginSharedPref: SharedPreferences = getSharedPreferences(getString(R.string.login_preference_file), Context.MODE_PRIVATE)
+        if(!loginSharedPref.getBoolean("logged", false)) {
+            fabInsertAnomaly.isInvisible = true
         }
     }
 
     // Location Permission
-    private val REQUEST_LOCATION_PERMISSION = 1
-
     private fun enableMyLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION),
-                    REQUEST_LOCATION_PERMISSION
-            )
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
             return
         } else { map.isMyLocationEnabled = true }
     }
@@ -79,7 +90,7 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
             permissions: Array<String>,
             grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_LOCATION_PERMISSION) {
+        if (requestCode == 1) {
             if (grantResults.contains(PackageManager.PERMISSION_GRANTED)) {
                 enableMyLocation()
             }
@@ -96,7 +107,7 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
         val request = ServiceBuilder.buildService(EndPoints::class.java)
         val call = request.getAnomalies()
 
-        var anomalies: List<Anomaly> = listOf()
+        var anomalies: List<Anomaly>
         call.enqueue(object : Callback<List<Anomaly>> {
             override fun onResponse(call: Call<List<Anomaly>>, response: Response<List<Anomaly>>) {
                 if (response.isSuccessful) {
@@ -128,14 +139,9 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
             }
         })
 
-        // enableMyLocation()
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
             && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION),
-                    REQUEST_LOCATION_PERMISSION
-            )
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
             return
         } else {
             map.isMyLocationEnabled = true

@@ -1,10 +1,7 @@
 package commov.safecity.api
 
-import android.content.res.Resources
-import commov.safecity.R
 import retrofit2.Call
 import retrofit2.http.*
-import java.io.File
 
 interface EndPoints {
     @GET("anomalies")
@@ -19,4 +16,16 @@ interface EndPoints {
         @Field("username") username: String,
         @Field("password") password: String
     ): Call<LoginPostResponse>
+
+    @FormUrlEncoded
+    @POST("anomaly")
+    fun anomaly(
+            @Field("title") title: String,
+            @Field("description") description: String,
+            @Field("lat") lat: Double,
+            @Field("lng") lng: Double,
+            @Field("photo") photo: String?,
+            @Field("user_id") userID: Int,
+            @Field("type_id") typeID: Int
+    ): Call<Anomaly>
 }

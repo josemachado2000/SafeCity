@@ -51,12 +51,13 @@
         android:layout_marginEnd="60dp"
         android:layout_marginBottom="16dp"
         android:clickable="true"
+        android:contentDescription="@string/home_newAnomaly"
+        android:focusable="true"
         android:src="@drawable/plus_vector"
+        app:backgroundTint="@color/light_gray"
         app:fabCustomSize="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:maxImageSize="30dp"
-        android:focusable="true"
-        android:contentDescription="@string/home_newAnomaly" />
+        app:maxImageSize="30dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

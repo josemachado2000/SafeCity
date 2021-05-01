@@ -30,8 +30,10 @@
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/insert_anomaly_screenTitle">
+        app:layout_constraintTop_toBottomOf="@+id/insert_anomaly_screenTitle"
+        app:layout_constraintVertical_bias="0.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -114,7 +116,6 @@
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_weight="1"
@@ -123,20 +124,71 @@
                 android:spinnerMode="dropdown"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/insert_anomaly_description_textInputLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/insert_anomaly_emptySpinnerMessage" />
 
-            <Button
-                android:id="@+id/insert_anomaly_photo_button"
-                android:layout_width="wrap_content"
+            <!--            <Button-->
+            <!--                android:id="@+id/insert_anomaly_photo_button"-->
+            <!--                android:layout_width="130dp"-->
+            <!--                android:layout_height="40dp"-->
+            <!--                android:layout_marginTop="8dp"-->
+            <!--                android:layout_marginBottom="16dp"-->
+            <!--                android:text="@string/insert_anomaly_photo_button"-->
+            <!--                android:textSize="12sp"-->
+            <!--                android:textStyle="bold"-->
+            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/insert_anomaly_uploadPhoto" />-->
+
+            <TextView
+                android:id="@+id/insert_anomaly_emptySpinnerMessage"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="@string/insert_anomaly_photo_button"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:text="@string/insert_anomaly_emptySpinnerMessage"
+                android:textColor="#FF0000"
+                android:textStyle="bold"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/insert_anomaly_type_spinner" />
+                app:layout_constraintTop_toBottomOf="@+id/insert_anomaly_description_textInputLayout" />
+
+            <ImageView
+                android:id="@+id/insert_anomaly_uploadPhoto"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="#676767"
+                android:contentDescription="@string/insert_anomaly_uploadPhotoMessage"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/insert_anomaly_type_spinner"
+                app:srcCompat="@drawable/upload_vector"
+                tools:ignore="VectorDrawableCompat" />
+
+            <TextView
+                android:id="@+id/insert_anomaly_uploadPhotoMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="181dp"
+                android:text="@string/insert_anomaly_uploadPhotoMessage"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/insert_anomaly_uploadPhoto"
+                app:layout_constraintEnd_toEndOf="@+id/insert_anomaly_uploadPhoto"
+                app:layout_constraintStart_toStartOf="@+id/insert_anomaly_uploadPhoto"
+                app:layout_constraintTop_toTopOf="@+id/insert_anomaly_uploadPhoto" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
