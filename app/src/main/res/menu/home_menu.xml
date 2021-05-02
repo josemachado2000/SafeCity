@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/home_menu_typeFilter"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/filter_vector"
+        android:title="@string/typeFilter">
+
+        <menu>
+            <item android:id="@+id/home_menu_typeFilter_accident"
+                android:title="@string/home_menu_typeFilter_accident"
+                app:showAsAction="never" />
+
+            <item android:id="@+id/home_menu_typeFilter_roadWork"
+                android:title="@string/home_menu_typeFilter_roadWork"
+                app:showAsAction="never" />
+
+            <item android:id="@+id/home_menu_typeFilter_roadObstacle"
+                android:title="@string/home_menu_typeFilter_roadObstacle"
+                app:showAsAction="never" />
+
+            <item android:id="@+id/home_menu_typeFilter_traffic"
+                android:title="@string/home_menu_typeFilter_traffic"
+                app:showAsAction="never" />
+
+            <item android:id="@+id/home_menu_typeFilter_roadPothole"
+                android:title="@string/home_menu_typeFilter_roadPothole"
+                app:showAsAction="never" />
+        </menu>
+
+    </item>
+
+    <item android:id="@+id/logout"
+        android:title="@string/logout"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/notes"
+        android:title="@string/notes"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/about"
+        android:title="@string/about"
+        app:showAsAction="never"/>
+</menu>

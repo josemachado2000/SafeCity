@@ -15,6 +15,13 @@
     <string name="notes">Notas</string>
     <string name="about">Sobre</string>
     <string name="anomaliesMap">Anomalias</string>
+    <string name="typeFilter">Types</string>
+        <!--    Filter SubMenu    -->
+        <string name="home_menu_typeFilter_accident">Acidente</string>
+        <string name="home_menu_typeFilter_roadWork">Obra na via</string>
+        <string name="home_menu_typeFilter_roadObstacle">Obstáculo na via</string>
+        <string name="home_menu_typeFilter_traffic">Trânsito</string>
+        <string name="home_menu_typeFilter_roadPothole">Buraco na estrada</string>
 
     <!--    Insert Note-->
     <string name="insert_note_screenTitle">Inserir Nota</string>

@@ -15,6 +15,13 @@
     <string name="notes">Notes</string>
     <string name="about">About</string>
     <string name="anomaliesMap">Anomalies</string>
+    <string name="typeFilter">Types</string>
+        <!--    Filter SubMenu    -->
+        <string name="home_menu_typeFilter_accident">Accident</string>
+        <string name="home_menu_typeFilter_roadWork">Road Work</string>
+        <string name="home_menu_typeFilter_roadObstacle">Road Obstacle</string>
+        <string name="home_menu_typeFilter_traffic">Traffic</string>
+        <string name="home_menu_typeFilter_roadPothole">Road Pothole</string>
 
     <!--    Note Recycler    -->
     <!--    <string name="recycler_note_title">Login</string>-->

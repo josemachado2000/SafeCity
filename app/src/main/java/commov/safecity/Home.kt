@@ -8,7 +8,6 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
@@ -36,8 +35,6 @@ import commov.safecity.api.ServiceBuilder
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.Serializable
-import java.util.ArrayList
 
 class Home : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var map: GoogleMap
@@ -183,11 +180,11 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
         val loginSharedPref: SharedPreferences = getSharedPreferences(getString(R.string.login_preference_file), Context.MODE_PRIVATE)
         return if (loginSharedPref.getBoolean("logged", false)) {
             val inflater: MenuInflater = menuInflater
-            inflater.inflate(R.menu.logged_menu, menu)
+            inflater.inflate(R.menu.home_menu, menu)
             true
         } else {
             val inflater: MenuInflater = menuInflater
-            inflater.inflate(R.menu.non_logged_menu, menu)
+            inflater.inflate(R.menu.home_menu, menu)
             true
         }
     }
@@ -195,11 +192,13 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle item selection
         return when (item.itemId) {
-            R.id.login -> {
-                val intent = Intent(this@Home, Login::class.java)
-                startActivity(intent)
-                true
-            }
+//            R.id.login -> {
+//                val intent = Intent(this@Home, Login::class.java)
+//                startActivity(intent)
+//                true
+//            }
+            // Filter options
+
             R.id.logout -> {
                 val loginSharedPref: SharedPreferences = getSharedPreferences(getString(R.string.login_preference_file), Context.MODE_PRIVATE)
                 with(loginSharedPref.edit()) {
