@@ -225,7 +225,7 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
 
             when (view.getId()) {
                 R.id.home_satellite_radioButton -> if (checked) { map.mapType = GoogleMap.MAP_TYPE_SATELLITE }
-                R.id.home_terrain_radioButton -> if (checked) { map.mapType = GoogleMap.MAP_TYPE_TERRAIN }
+                R.id.home_terrain_radioButton -> if (checked) { map.mapType = GoogleMap.MAP_TYPE_NORMAL }
             }
         }
     }

@@ -147,24 +147,46 @@ class InsertAnomaly : AppCompatActivity() {
             if (typeSelected.type !== types[0] && validTitle && validDesc) {
                 val loginSharedPref: SharedPreferences = getSharedPreferences(getString(R.string.login_preference_file), MODE_PRIVATE)
 
-                Log.i("InsertAnomaly", "$title $description ${currentLocation.latitude} ${currentLocation.longitude}  " +
+                Log.i("InsertAnomaly", "$title $description ${currentLocation.latitude} ${currentLocation.longitude}" +
                     "$photoPath ${loginSharedPref.getInt("loggedUserID", 0)} ${typeSelected.type_id} ${typeSelected.type}")
 
+                val photo = File(photoPath)
                 val requestPostAnomaly = ServiceBuilder.buildService(EndPoints::class.java)
                 val callPostAnomaly = requestPostAnomaly.anomaly(
-                        title = title,
-                        description = description,
-                        lat = currentLocation.latitude,
-                        lng = currentLocation.longitude,
-                        photo = photoPath,
-                        userID = loginSharedPref.getInt("loggedUserID", 0),
-                        typeID = typeSelected.type_id
+                    title = title,
+                    description = description,
+                    lat = currentLocation.latitude,
+                    lng = currentLocation.longitude,
+                    photo = photo.name,
+                    userID = loginSharedPref.getInt("loggedUserID", 0),
+                    typeID = typeSelected.type_id
                 )
 
                 Log.i("InsertAnomaly", callPostAnomaly.request().toString())
                 callPostAnomaly.enqueue(object : Callback<Anomaly> {
                     override fun onResponse(call: Call<Anomaly>, response: Response<Anomaly>) {
                         if (response.isSuccessful) {
+                            val SDK_INT = Build.VERSION.SDK_INT
+                            if (SDK_INT > 8) {
+                                val policy = StrictMode
+                                        .ThreadPolicy
+                                        .Builder()
+                                        .permitAll()
+                                        .build()
+                                StrictMode.setThreadPolicy(policy)
+                                try {
+                                    val mFtpClient = FTPClient()
+                                    mFtpClient.connect("files.000webhost.com", 21)
+                                    mFtpClient.login("safecity-commov", "Safecitypass-123")
+                                    mFtpClient.type = FTPClient.TYPE_BINARY
+                                    mFtpClient.changeDirectory("/public_html/SafeCity/images")
+                                    mFtpClient.upload(photo)
+                                    mFtpClient.disconnect(true)
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                    Log.i("FTP", "Failed to upload image via FTP")
+                                }
+                            }
                             val intent = Intent(this@InsertAnomaly, Home::class.java)
                             startActivity(intent)
                             finish()
@@ -200,37 +222,10 @@ class InsertAnomaly : AppCompatActivity() {
             photoPath = cursor.getString(columnIndex)
             cursor.close()
 
-            val SDK_INT = Build.VERSION.SDK_INT
-            if (SDK_INT > 8) {
-                val policy = StrictMode
-                        .ThreadPolicy
-                        .Builder()
-                        .permitAll()
-                        .build()
-                StrictMode.setThreadPolicy(policy)
-
-                try {
-                    val mFtpClient = FTPClient()
-                    mFtpClient.connect("files.000webhost.com", 21)
-                    mFtpClient.login("safecity-commov", "Safecitypass-123")
-
-                    mFtpClient.type = FTPClient.TYPE_BINARY
-                    mFtpClient.changeDirectory("/public_html/SafeCity/images")
-
-                    mFtpClient.upload(File(photoPath))
-
-                    mFtpClient.disconnect(true)
-
-                    val buttonUploadPhoto = findViewById<ImageView>(R.id.insert_anomaly_uploadPhoto)
-                    val uploadPhotoMessage = findViewById<TextView>(R.id.insert_anomaly_uploadPhotoMessage)
-                    buttonUploadPhoto.setImageURI(selectedPhotoURI)
-                    uploadPhotoMessage.isInvisible = true
-
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    Log.i("FTP", "Failed to upload image via FTP")
-                }
-            }
+            val buttonUploadPhoto = findViewById<ImageView>(R.id.insert_anomaly_uploadPhoto)
+            val uploadPhotoMessage = findViewById<TextView>(R.id.insert_anomaly_uploadPhotoMessage)
+            buttonUploadPhoto.setImageURI(selectedPhotoURI)
+            uploadPhotoMessage.isInvisible = true
         }
     }
 }
