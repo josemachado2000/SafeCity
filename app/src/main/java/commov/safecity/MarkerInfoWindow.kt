@@ -3,21 +3,28 @@ package commov.safecity
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
+
 
 class MarkerInfoWindow(context: Activity) : GoogleMap.InfoWindowAdapter {
         @SuppressLint("InflateParams")
         private var window = context.layoutInflater.inflate(R.layout.marker_infowindow, null)
 
-        private fun bindWindowText(marker: Marker, view: View){
-            val markerTitle = view.findViewById<TextView>(R.id.marker_title)
-            val markerSnippet = view.findViewById<TextView>(R.id.marker_snippet)
+        private fun bindWindowText(marker: Marker, view: View) {
+            val markerType = view.findViewById<TextView>(R.id.marker_type)
+            val markerPhoto = view.findViewById<ImageView>(R.id.marker_photo)
+            val visualizeButton = view.findViewById<Button>(R.id.marker_visualize_button)
 
-            markerTitle.text = marker.title
-            markerSnippet.text = marker.snippet
+            markerType.text = marker.title
+
+            visualizeButton.setOnClickListener {
+
+            }
         }
 
         override fun getInfoContents(marker: Marker): View {

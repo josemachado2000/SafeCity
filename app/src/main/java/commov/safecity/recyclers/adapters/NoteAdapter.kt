@@ -13,10 +13,7 @@ import commov.safecity.R
 import commov.safecity.roomNotes.entities.Note
 import kotlin.coroutines.coroutineContext
 
-class NoteAdapter(
-        private val listener: OnNoteClickListener
-) : ListAdapter<Note, NoteAdapter.NoteViewHolder>(NotesComparator()) {
-
+class NoteAdapter(private val listener: OnNoteClickListener) : ListAdapter<Note, NoteAdapter.NoteViewHolder>(NotesComparator()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val view: View = LayoutInflater.from(parent.context)
                 .inflate(R.layout.recycler_note_line, parent, false)

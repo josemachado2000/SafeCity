@@ -45,8 +45,6 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.google_map)
 
-
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
@@ -96,17 +94,17 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    private lateinit var anomalies: List<Anomaly>
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         map.uiSettings.isZoomControlsEnabled = true
 
-        val loginSharedPref: SharedPreferences = getSharedPreferences(getString(R.string.login_preference_file), Context.MODE_PRIVATE)
+        val loginSharedPref: SharedPreferences = getSharedPreferences(applicationContext.getString(R.string.login_preference_file), Context.MODE_PRIVATE)
         val userID = loginSharedPref.getInt("loggedUserID", 0)
 
         val request = ServiceBuilder.buildService(EndPoints::class.java)
         val call = request.getAnomalies()
 
-        var anomalies: List<Anomaly>
         call.enqueue(object : Callback<List<Anomaly>> {
             override fun onResponse(call: Call<List<Anomaly>>, response: Response<List<Anomaly>>) {
                 if (response.isSuccessful) {
@@ -117,16 +115,16 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
                             val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
                             map.addMarker(MarkerOptions()
                                     .position(markerLatLng)
-                                    .title(anomaly.title)
-                                    .snippet(anomaly.description)
+                                    .title(anomaly.type)
+                                    .snippet(anomaly.photo)
                                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                             )
                         } else {
                             val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
                             map.addMarker(MarkerOptions()
                                     .position(markerLatLng)
-                                    .title(anomaly.title)
-                                    .snippet(anomaly.description)
+                                    .title(anomaly.type)
+                                    .snippet(anomaly.photo)
                             )
                         }
                     }
@@ -191,16 +189,123 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle item selection
+        val loginSharedPref: SharedPreferences = getSharedPreferences(getString(R.string.login_preference_file), Context.MODE_PRIVATE)
+        val userID = loginSharedPref.getInt("loggedUserID", 0)
         return when (item.itemId) {
 //            R.id.login -> {
 //                val intent = Intent(this@Home, Login::class.java)
 //                startActivity(intent)
 //                true
 //            }
+
             // Filter options
+            R.id.home_menu_typeFilter_accident -> {
+                map.clear()
+                val filteredAnomalies = anomalies.filter { it.type == "Acidente" }
+                for (anomaly in filteredAnomalies) {
+                    if(anomaly.userID == userID) {
+                        val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
+                        map.addMarker(MarkerOptions()
+                                .position(markerLatLng)
+                                .title(anomaly.type)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                        )
+                    } else {
+                        val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
+                        map.addMarker(MarkerOptions()
+                                .position(markerLatLng)
+                                .title(anomaly.type)
+                        )
+                    }
+                }
+                true
+            }
+            R.id.home_menu_typeFilter_roadWork -> {
+                map.clear()
+                val filteredAnomalies = anomalies.filter { it.type == "Obra na via" }
+                for (anomaly in filteredAnomalies) {
+                    if(anomaly.userID == userID) {
+                        val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
+                        map.addMarker(MarkerOptions()
+                                .position(markerLatLng)
+                                .title(anomaly.type)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                        )
+                    } else {
+                        val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
+                        map.addMarker(MarkerOptions()
+                                .position(markerLatLng)
+                                .title(anomaly.type)
+                        )
+                    }
+                }
+                true
+            }
+            R.id.home_menu_typeFilter_roadObstacle -> {
+                map.clear()
+                val filteredAnomalies = anomalies.filter { it.type == "Obstáculo na via" }
+                for (anomaly in filteredAnomalies) {
+                    if(anomaly.userID == userID) {
+                        val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
+                        map.addMarker(MarkerOptions()
+                                .position(markerLatLng)
+                                .title(anomaly.type)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                        )
+                    } else {
+                        val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
+                        map.addMarker(MarkerOptions()
+                                .position(markerLatLng)
+                                .title(anomaly.type)
+                        )
+                    }
+                }
+                true
+            }
+            R.id.home_menu_typeFilter_traffic -> {
+                map.clear()
+                val filteredAnomalies = anomalies.filter { it.type == "Trânsito" }
+                for (anomaly in filteredAnomalies) {
+                    if(anomaly.userID == userID) {
+                        val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
+                        map.addMarker(MarkerOptions()
+                                .position(markerLatLng)
+                                .title(anomaly.type)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                        )
+                    } else {
+                        val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
+                        map.addMarker(MarkerOptions()
+                                .position(markerLatLng)
+                                .title(anomaly.type)
+                        )
+                    }
+                }
+                true
+            }
+            R.id.home_menu_typeFilter_roadPothole -> {
+                map.clear()
+                val filteredAnomalies = anomalies.filter { it.type == "Buraco na via" }
+                for (anomaly in filteredAnomalies) {
+                    if(anomaly.userID == userID) {
+                        val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
+                        map.addMarker(MarkerOptions()
+                                .position(markerLatLng)
+                                .title(anomaly.type)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                        )
+                    } else {
+                        val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
+                        map.addMarker(MarkerOptions()
+                                .position(markerLatLng)
+                                .title(anomaly.type)
+                        )
+                    }
+                }
+                true
+            }
 
             R.id.logout -> {
-                val loginSharedPref: SharedPreferences = getSharedPreferences(getString(R.string.login_preference_file), Context.MODE_PRIVATE)
                 with(loginSharedPref.edit()) {
                     clear()
                     apply()
