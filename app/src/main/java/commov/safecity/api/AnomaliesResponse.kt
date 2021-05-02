@@ -1,13 +1,14 @@
 package commov.safecity.api
 
-import java.sql.Blob
-
 data class Anomaly(
     val id: Int,
-    val local: String,
+    val title: String,
     val description: String,
     val location: AnomalyLocation,
-    val photo: Blob
+    val photo: String,
+    val userID: Int,
+    val typeID: Int,
+    val type: String
 )
 
 data class AnomalyLocation(

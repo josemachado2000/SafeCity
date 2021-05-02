@@ -1,37 +1,49 @@
 package commov.safecity
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.os.Parcelable
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
+import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import commov.safecity.api.Anomaly
 import commov.safecity.api.EndPoints
 import commov.safecity.api.ServiceBuilder
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.Serializable
+import java.util.ArrayList
 
 class Home : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var map: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
+    @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.google_map)
@@ -45,41 +57,32 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        val request = ServiceBuilder.buildService(EndPoints::class.java)
-        val call = request.getAnomalies()
+        val fabInsertAnomaly = findViewById<FloatingActionButton>(R.id.home_fab_insertAnomaly)
+        fabInsertAnomaly.setOnClickListener {
+            enableMyLocation()
+            fusedLocationClient.lastLocation.addOnSuccessListener { location : Location? ->
+                // Got last known location. In some rare situations this can be null.
+                if (location != null) {
+                    Log.i("InsertAnomaly", location.toString())
+                    val currentLocation = LatLng(location.latitude, location.longitude)
 
-        call.enqueue(object : Callback<List<Anomaly>> {
-            override fun onResponse(call: Call<List<Anomaly>>, response: Response<List<Anomaly>>) {
-                if (response.isSuccessful) {
-                    val anomalies = response.body()!!
-                    for (anomaly in anomalies) {
-                        val latlng = LatLng(anomaly.location.lat, anomaly.location.lng)
-                        map.addMarker(MarkerOptions().position(latlng).title(anomaly.local).snippet(anomaly.description))
-                    }
+                    val intent = Intent(this@Home, InsertAnomaly::class.java).apply { putExtra("currentLocation", currentLocation) }
+                    startActivity(intent)
                 }
             }
+        }
 
-            override fun onFailure(call: Call<List<Anomaly>>, t: Throwable) {
-                Toast.makeText(this@Home, "Failed", Toast.LENGTH_SHORT).show()
-            }
-        })
+        val loginSharedPref: SharedPreferences = getSharedPreferences(getString(R.string.login_preference_file), Context.MODE_PRIVATE)
+        if(!loginSharedPref.getBoolean("logged", false)) {
+            fabInsertAnomaly.isInvisible = true
+        }
     }
 
     // Location Permission
-    private val REQUEST_LOCATION_PERMISSION = 1
-
     private fun enableMyLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            // public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION),
-                    REQUEST_LOCATION_PERMISSION
-            )
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
             return
         } else { map.isMyLocationEnabled = true }
     }
@@ -89,7 +92,7 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
             permissions: Array<String>,
             grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_LOCATION_PERMISSION) {
+        if (requestCode == 1) {
             if (grantResults.contains(PackageManager.PERMISSION_GRANTED)) {
                 enableMyLocation()
             }
@@ -98,19 +101,81 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+        map.uiSettings.isZoomControlsEnabled = true
 
-        enableMyLocation()
-        fusedLocationClient.lastLocation.addOnSuccessListener { location : Location? ->
-            // Got last known location. In some rare situations this can be null.
-            val currentLocation = location?.let { LatLng(it.latitude, location.longitude) }
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15f))
+        val loginSharedPref: SharedPreferences = getSharedPreferences(getString(R.string.login_preference_file), Context.MODE_PRIVATE)
+        val userID = loginSharedPref.getInt("loggedUserID", 0)
 
+        val request = ServiceBuilder.buildService(EndPoints::class.java)
+        val call = request.getAnomalies()
+
+        var anomalies: List<Anomaly>
+        call.enqueue(object : Callback<List<Anomaly>> {
+            override fun onResponse(call: Call<List<Anomaly>>, response: Response<List<Anomaly>>) {
+                if (response.isSuccessful) {
+                    Log.i("Response", response.body().toString())
+                    anomalies = response.body()!!
+                    for (anomaly in anomalies) {
+                        if(anomaly.userID == userID) {
+                            val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
+                            map.addMarker(MarkerOptions()
+                                    .position(markerLatLng)
+                                    .title(anomaly.title)
+                                    .snippet(anomaly.description)
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                            )
+                        } else {
+                            val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
+                            map.addMarker(MarkerOptions()
+                                    .position(markerLatLng)
+                                    .title(anomaly.title)
+                                    .snippet(anomaly.description)
+                            )
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<List<Anomaly>>, t: Throwable) {
+                Toast.makeText(this@Home, "Failed to get Anomalies", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
+            return
+        } else {
+            map.isMyLocationEnabled = true
+            fusedLocationClient.lastLocation.addOnSuccessListener { location : Location? ->
+                // Got last known location. In some rare situations this can be null.
+                if (location != null) {
+                    Log.i("Location", location.toString())
+                    val currentLocation = LatLng(location.latitude, location.longitude)
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16f))
+                }
+            }
         }
 
         map.setOnMarkerClickListener {
             map.setInfoWindowAdapter(MarkerInfoWindow(this))
+            onMarkerClick()
+            map.setOnInfoWindowCloseListener {
+                val fabInsertAnomaly = findViewById<FloatingActionButton>(R.id.home_fab_insertAnomaly)
+                fabInsertAnomaly.isVisible = true
+            }
             false
         }
+    }
+
+    private fun onMarkerClick(): Boolean {
+        val fabInsertAnomaly = findViewById<FloatingActionButton>(R.id.home_fab_insertAnomaly)
+        fabInsertAnomaly.isInvisible = true
+
+        // Return false to indicate that we have not consumed the event and that we wish
+        // for the default behavior to occur (which is for the camera to move such that the
+        // marker is centered and for the marker's info window to open, if it has one).
+        return false
     }
 
     // Menu
@@ -144,6 +209,7 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
 
                 val intent = Intent(this@Home, Login::class.java)
                 startActivity(intent)
+                finishAffinity()
                 true
             }
             R.id.notes -> {
@@ -152,6 +218,17 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    fun onRadioButtonClicked(view: View) {
+        if (view is RadioButton) {
+            val checked = view.isChecked
+
+            when (view.getId()) {
+                R.id.home_satellite_radioButton -> if (checked) { map.mapType = GoogleMap.MAP_TYPE_SATELLITE }
+                R.id.home_terrain_radioButton -> if (checked) { map.mapType = GoogleMap.MAP_TYPE_NORMAL }
+            }
         }
     }
 }

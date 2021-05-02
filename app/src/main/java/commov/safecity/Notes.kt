@@ -191,17 +191,13 @@ class Notes : AppCompatActivity(), NoteAdapter.OnNoteClickListener {
             val inflater: MenuInflater = menuInflater
             inflater.inflate(R.menu.logged_menu, menu)
             val notesItem = menu.findItem(R.id.notes)
-            val aboutItem = menu.findItem(R.id.about)
             notesItem.isVisible = false
-            aboutItem.isVisible = false
             true
         } else {
             val inflater: MenuInflater = menuInflater
             inflater.inflate(R.menu.non_logged_menu, menu)
             val notesItem = menu.findItem(R.id.notes)
-            val aboutItem = menu.findItem(R.id.about)
             notesItem.isVisible = false
-            aboutItem.isVisible = false
             true
         }
     }
@@ -209,6 +205,11 @@ class Notes : AppCompatActivity(), NoteAdapter.OnNoteClickListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle item selection
         return when (item.itemId) {
+            R.id.anomaliesMap -> {
+                val intent = Intent(this@Notes, Home::class.java)
+                startActivity(intent)
+                true
+            }
             R.id.login -> {
                 val intent = Intent(this@Notes, Login::class.java)
                 startActivity(intent)
@@ -223,7 +224,7 @@ class Notes : AppCompatActivity(), NoteAdapter.OnNoteClickListener {
 
                 val intent = Intent(this@Notes, Login::class.java)
                 startActivity(intent)
-                finish()
+                finishAffinity()
                 true
             }
             else -> super.onOptionsItemSelected(item)
