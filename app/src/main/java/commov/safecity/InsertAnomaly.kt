@@ -152,7 +152,7 @@ class InsertAnomaly : AppCompatActivity() {
 
                 val photo = File(photoPath)
                 val requestPostAnomaly = ServiceBuilder.buildService(EndPoints::class.java)
-                val callPostAnomaly = requestPostAnomaly.anomaly(
+                val callPostAnomaly = requestPostAnomaly.insertAnomaly(
                     title = title,
                     description = description,
                     lat = currentLocation.latitude,

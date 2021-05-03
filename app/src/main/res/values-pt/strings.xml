@@ -97,4 +97,12 @@
     <string name="insert_anomaly_descLengthError">Descrição demasiada longo</string>
     <string name="insert_anomaly_emptySpinnerMessage">Selecione um tipo de anomalia</string>
     <string name="insert_anomaly_uploadPhotoMessage">Faça upload de uma imagem</string>
+
+    <!--    Visualize Anomaly    -->
+    <string name="visualize_anomaly_screenTitle">Anomalia</string>
+    <string name="visualize_anomaly_anomalyPhoto">Fotografia</string>
+    <string name="visualize_anomaly_anomalyTitle_textInputLayout">Título</string>
+    <string name="visualize_anomaly_anomalyDesc_textInputLayout">Descrição</string>
+    <string name="visualize_anomaly_editButton">Editar</string>
+    <string name="visualize_anomaly_deleteButton">Eliminar</string>
 </resources>

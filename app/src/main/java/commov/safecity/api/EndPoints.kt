@@ -19,13 +19,18 @@ interface EndPoints {
 
     @FormUrlEncoded
     @POST("anomaly")
-    fun anomaly(
-            @Field("title") title: String,
-            @Field("description") description: String,
-            @Field("lat") lat: Double,
-            @Field("lng") lng: Double,
-            @Field("photo") photo: String?,
-            @Field("user_id") userID: Int,
-            @Field("type_id") typeID: Int
+    fun insertAnomaly(
+        @Field("title") title: String,
+        @Field("description") description: String,
+        @Field("lat") lat: Double,
+        @Field("lng") lng: Double,
+        @Field("photo") photo: String?,
+        @Field("user_id") userID: Int,
+        @Field("type_id") typeID: Int
+    ): Call<Anomaly>
+
+    @DELETE("anomaly/{id}")
+    fun deleteAnomalyByID(
+        @Path("id") id: Int
     ): Call<Anomaly>
 }

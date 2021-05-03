@@ -27,6 +27,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import commov.safecity.api.Anomaly
@@ -36,7 +37,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class Home : AppCompatActivity(), OnMapReadyCallback {
+class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
     private lateinit var map: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
@@ -97,6 +98,7 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var anomalies: List<Anomaly>
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+        map.setOnInfoWindowClickListener(this)
         map.uiSettings.isZoomControlsEnabled = true
 
         val loginSharedPref: SharedPreferences = getSharedPreferences(applicationContext.getString(R.string.login_preference_file), Context.MODE_PRIVATE)
@@ -113,19 +115,21 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
                     for (anomaly in anomalies) {
                         if(anomaly.userID == userID) {
                             val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
-                            map.addMarker(MarkerOptions()
+                            val marker: Marker? = map.addMarker(MarkerOptions()
                                     .position(markerLatLng)
                                     .title(anomaly.type)
                                     .snippet(anomaly.photo)
                                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                             )
+                            marker?.tag = anomaly
                         } else {
                             val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
-                            map.addMarker(MarkerOptions()
+                            val marker: Marker? = map.addMarker(MarkerOptions()
                                     .position(markerLatLng)
                                     .title(anomaly.type)
                                     .snippet(anomaly.photo)
                             )
+                            marker?.tag = anomaly
                         }
                     }
                 }
@@ -161,6 +165,12 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
             }
             false
         }
+    }
+
+    override fun onInfoWindowClick(marker: Marker) {
+        Log.i("Marker0", marker.tag!!.toString())
+        val intent = Intent(this@Home, VisualizeAnomaly::class.java)
+        startActivity(intent)
     }
 
     private fun onMarkerClick(): Boolean {
@@ -335,4 +345,6 @@ class Home : AppCompatActivity(), OnMapReadyCallback {
             }
         }
     }
+
+
 }

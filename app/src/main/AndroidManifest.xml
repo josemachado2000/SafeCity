@@ -38,5 +38,6 @@
         <activity android:name="commov.safecity.EditNote"/>
         <activity android:name="commov.safecity.Login"/>
         <activity android:name="commov.safecity.InsertAnomaly"/>
+        <activity android:name="commov.safecity.VisualizeAnomaly"/>
     </application>
 </manifest>
