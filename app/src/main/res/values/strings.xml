@@ -109,4 +109,11 @@
     <string name="visualize_anomaly_anomalyDesc_textInputLayout">Description</string>
     <string name="visualize_anomaly_editButton">Edit</string>
     <string name="visualize_anomaly_deleteButton">Delete</string>
+    <string name="visualize_anomaly_anomalyLat">Latitude:</string>
+    <string name="visualize_anomaly_anomalyLng">Longitude:</string>
+    <!--    Anomaly Delete Popup    -->
+    <string name="visualize_anomaly_delete_popup_title">Delete</string>
+    <string name="visualize_anomaly_delete_popup_message">These changes cannot be reversed!</string>
+    <string name="visualize_anomaly_delete_popup_yes">Yes</string>
+    <string name="visualize_anomaly_delete_popup_cancel">Cancel</string>
 </resources>

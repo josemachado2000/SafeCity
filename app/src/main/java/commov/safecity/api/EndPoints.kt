@@ -29,8 +29,8 @@ interface EndPoints {
         @Field("type_id") typeID: Int
     ): Call<Anomaly>
 
-    @DELETE("anomaly/{id}")
-    fun deleteAnomalyByID(
+    @GET("anomaly/{id}")
+    fun deleteAnomalyById(
         @Path("id") id: Int
     ): Call<Anomaly>
 }

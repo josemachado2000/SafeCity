@@ -8,6 +8,7 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
@@ -19,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.versionedparcelable.VersionedParcelize
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -33,9 +35,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import commov.safecity.api.Anomaly
 import commov.safecity.api.EndPoints
 import commov.safecity.api.ServiceBuilder
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.Serializable
 
 class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
     private lateinit var map: GoogleMap
@@ -168,8 +172,9 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
     }
 
     override fun onInfoWindowClick(marker: Marker) {
-        Log.i("Marker0", marker.tag!!.toString())
-        val intent = Intent(this@Home, VisualizeAnomaly::class.java)
+        val anomaly = arrayListOf<Anomaly>()
+        anomaly.add(marker.tag as Anomaly)
+        val intent = Intent(this@Home, VisualizeAnomaly::class.java).apply { putExtra("markerTag", anomaly) }
         startActivity(intent)
     }
 

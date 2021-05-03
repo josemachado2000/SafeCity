@@ -2,7 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     // id 'org.jetbrains.kotlin.plugin.serialization' version '1.4.30'
-    // id 'kotlin-parcelize'
+    id 'kotlin-parcelize'
 }
 
 apply plugin: 'kotlin-kapt'

@@ -27,53 +27,13 @@ class MarkerInfoWindow(context: Activity) : GoogleMap.InfoWindowAdapter {
     private var window = context.layoutInflater.inflate(R.layout.marker_infowindow, null)
 
     private fun bindWindowText(marker: Marker, view: View) {
-        val markerType = view.findViewById<TextView>(R.id.marker_type)
-        val markerPhoto = view.findViewById<ImageView>(R.id.marker_photo)
+//        val markerType = view.findViewById<TextView>(R.id.marker_type)
+//        val markerPhoto = view.findViewById<ImageView>(R.id.marker_photo)
         val visualizeButton = view.findViewById<Button>(R.id.marker_visualize_button)
         val deleteButton = view.findViewById<Button>(R.id.marker_delete_button)
 
-
-        Log.i("Marker", marker.tag!!.toString())
-        val anomaly: Anomaly = marker.tag as Anomaly
-
-        visualizeButton.setOnClickListener {
-
-        }
-
-        deleteButton.setOnClickListener {
-            val builder = AlertDialog.Builder(window.context)
-            builder.apply {
-                setTitle(R.string.notes_delete_popup_title)
-                setMessage(R.string.notes_delete_popup_message)
-                setPositiveButton(R.string.notes_delete_popup_yes
-                ) { dialog, _ ->
-                    // User clicked Yes button
-                    val request = ServiceBuilder.buildService(EndPoints::class.java)
-                    val call = request.deleteAnomalyByID(id = anomaly.id)
-
-                    call.enqueue(object : Callback<Anomaly> {
-                        override fun onResponse(call: Call<Anomaly>, response: Response<Anomaly>) {
-                            if (response.isSuccessful) {
-                                Log.i("Marker", "Delete successful")
-                            }
-                        }
-
-                        override fun onFailure(call: Call<Anomaly>?, t: Throwable?) {
-                            Log.i("Marker", "Delete failed")
-                        }
-                    })
-                    dialog.dismiss()
-                }
-                setNegativeButton(R.string.notes_delete_popup_cancel
-                ) { dialog, _ ->
-                    // User cancelled the dialog
-                    dialog.dismiss()
-                }
-            }
-            // Create the AlertDialog
-            builder.create()
-            builder.show()
-        }
+//        Log.i("Marker", marker.tag!!.toString())
+//        val anomaly: Anomaly = marker.tag as Anomaly
     }
 
     override fun getInfoContents(marker: Marker): View {
