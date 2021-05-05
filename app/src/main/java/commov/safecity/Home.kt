@@ -20,8 +20,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -40,7 +39,11 @@ import retrofit2.Response
 
 class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
     private lateinit var map: GoogleMap
+    private lateinit var lastLocation: Location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var locationCallback: LocationCallback
+    private lateinit var locationRequest: LocationRequest
+
     private val checkedItems = booleanArrayOf(false, false, false, false, false)
 
     @SuppressLint("MissingPermission")
@@ -74,6 +77,17 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
         if(!loginSharedPref.getBoolean("logged", false)) {
             fabInsertAnomaly.isInvisible = true
         }
+
+        createLocationRequest()
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(p0: LocationResult) {
+                super.onLocationResult(p0)
+                lastLocation = p0.lastLocation
+                val location = LatLng(lastLocation.latitude, lastLocation.longitude)
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16.0f))
+                Log.i("Location", location.latitude.toString() + "   " + location.longitude.toString())
+            }
+        }
     }
 
     // Location Permission
@@ -95,6 +109,37 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
                 enableMyLocation()
             }
         }
+    }
+
+    private fun createLocationRequest() {
+        locationRequest = LocationRequest.create().apply {
+            interval = 10000
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
+    }
+
+    private fun startLocationUpdates() {
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
+            return
+        }
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        fusedLocationClient.removeLocationUpdates(locationCallback)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        startLocationUpdates()
+    }
+
+    fun calculateDistance(lat1: Double, lng1: Double, lat2: Double, lng2: Double): Float {
+        val results = FloatArray(1)
+        Location.distanceBetween(lat1, lng1, lat2, lng2, results)
+        return results[0]
     }
 
     private lateinit var anomalies: List<Anomaly>
