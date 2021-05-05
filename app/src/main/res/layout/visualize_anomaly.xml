@@ -145,6 +145,54 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+<!--            <TextView-->
+<!--                android:id="@+id/visualize_anomaly_emptySpinnerMessage"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:layout_marginLeft="16dp"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                android:layout_marginEnd="16dp"-->
+<!--                android:layout_marginRight="16dp"-->
+<!--                android:text="@string/visualize_anomaly_emptySpinnerMessage"-->
+<!--                android:textColor="#FF0000"-->
+<!--                android:textStyle="bold"-->
+<!--                android:visibility="invisible"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/visualize_anomaly_anomalyDesc_textInputLayout" />-->
+
+            <Spinner
+                android:id="@+id/visualize_anomaly_type_spinner"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="8dp"
+                android:layout_weight="1"
+                android:dropDownWidth="match_parent"
+                android:popupBackground="@color/light_gray"
+                android:spinnerMode="dropdown"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/visualize_anomaly_TypeTextView"
+                app:layout_constraintTop_toBottomOf="@+id/visualize_anomaly_anomalyDesc_textInputLayout" />
+
+            <TextView
+                android:id="@+id/visualize_anomaly_TypeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:text="@string/visualize_anomaly_TypeTextView"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/visualize_anomaly_type_spinner"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/visualize_anomaly_type_spinner" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

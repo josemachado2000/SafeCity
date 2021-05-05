@@ -92,6 +92,7 @@
     <!-- <string name="insert_anomaly_photo_button">Adicionar fotografia</string> -->
     <string name="insert_anomaly_saveAnomaly_button">Guardar</string>
     <string name="insert_anomaly_spinnerDefaultValue">Selecione o tipo</string>
+    <string name="insert_anomaly_TypeTextView">Tipo</string>
     <string name="insert_anomaly_ObligationError">O campo não pode ser vazio</string>
     <string name="insert_anomaly_titleLengthError">Título demasiado longo</string>
     <string name="insert_anomaly_descLengthError">Descrição demasiada longo</string>
@@ -107,9 +108,15 @@
     <string name="visualize_anomaly_deleteButton">Eliminar</string>
     <string name="visualize_anomaly_anomalyLat">Latitude:</string>
     <string name="visualize_anomaly_anomalyLng">Longitude:</string>
-    <!--    Anomaly Delete Popup    -->
-    <string name="visualize_anomaly_delete_popup_title">Eliminar</string>
-    <string name="visualize_anomaly_delete_popup_message">Estas alterações não poderão ser revertidas!</string>
-    <string name="visualize_anomaly_delete_popup_yes">Sim</string>
-    <string name="visualize_anomaly_delete_popup_cancel">Cancelar</string>
+    <string name="visualize_anomaly_emptySpinnerMessage">Selecione um tipo de anomalia</string>
+    <string name="visualize_anomaly_TypeTextView">Tipo</string>
+        <!--    Anomaly Delete Popup    -->
+        <string name="visualize_anomaly_delete_popup_title">Eliminar</string>
+        <string name="visualize_anomaly_delete_popup_message">Estas alterações não poderão ser revertidas!</string>
+        <string name="visualize_anomaly_delete_popup_yes">Sim</string>
+        <string name="visualize_anomaly_delete_popup_cancel">Cancelar</string>
+        <!--    Update Anomaly    -->
+        <string name="update_anomaly_ObligationError">O campo não pode ser vazio</string>
+        <string name="update_anomaly_titleLengthError">Título demasiado longo</string>
+        <string name="update_anomaly_descLengthError">Descrição demasiada longo</string>
 </resources>

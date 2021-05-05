@@ -7,28 +7,32 @@
         android:icon="@drawable/filter_vector"
         android:title="@string/typeFilter">
 
-        <menu>
-            <item android:id="@+id/home_menu_typeFilter_accident"
-                android:title="@string/home_menu_typeFilter_accident"
-                app:showAsAction="never" />
+<!--        <menu>-->
+<!--            <item android:id="@+id/home_menu_typeFilter_accident"-->
+<!--                android:title="@string/home_menu_typeFilter_accident"-->
+<!--                app:showAsAction="never"-->
+<!--                android:checkable="true" />-->
 
-            <item android:id="@+id/home_menu_typeFilter_roadWork"
-                android:title="@string/home_menu_typeFilter_roadWork"
-                app:showAsAction="never" />
+<!--            <item android:id="@+id/home_menu_typeFilter_roadWork"-->
+<!--                android:title="@string/home_menu_typeFilter_roadWork"-->
+<!--                app:showAsAction="never"-->
+<!--                android:checkable="true" />-->
 
-            <item android:id="@+id/home_menu_typeFilter_roadObstacle"
-                android:title="@string/home_menu_typeFilter_roadObstacle"
-                app:showAsAction="never" />
+<!--            <item android:id="@+id/home_menu_typeFilter_roadObstacle"-->
+<!--                android:title="@string/home_menu_typeFilter_roadObstacle"-->
+<!--                app:showAsAction="never"-->
+<!--                android:checkable="true" />-->
 
-            <item android:id="@+id/home_menu_typeFilter_traffic"
-                android:title="@string/home_menu_typeFilter_traffic"
-                app:showAsAction="never" />
+<!--            <item android:id="@+id/home_menu_typeFilter_traffic"-->
+<!--                android:title="@string/home_menu_typeFilter_traffic"-->
+<!--                app:showAsAction="never"-->
+<!--                android:checkable="true" />-->
 
-            <item android:id="@+id/home_menu_typeFilter_roadPothole"
-                android:title="@string/home_menu_typeFilter_roadPothole"
-                app:showAsAction="never" />
-        </menu>
-
+<!--            <item android:id="@+id/home_menu_typeFilter_roadPothole"-->
+<!--                android:title="@string/home_menu_typeFilter_roadPothole"-->
+<!--                app:showAsAction="never"-->
+<!--                android:checkable="true" />-->
+<!--        </menu>-->
     </item>
 
     <item android:id="@+id/logout"

@@ -96,6 +96,7 @@
     <!-- <string name="insert_anomaly_photo_button">Enter photo</string> -->
     <string name="insert_anomaly_saveAnomaly_button">Save</string>
     <string name="insert_anomaly_spinnerDefaultValue">Select type</string>
+    <string name="insert_anomaly_TypeTextView">Type</string>
     <string name="insert_anomaly_ObligationError">Field can´t be empty</string>
     <string name="insert_anomaly_titleLengthError">Title too long</string>
     <string name="insert_anomaly_descLengthError">Description too long</string>
@@ -107,13 +108,19 @@
     <string name="visualize_anomaly_anomalyPhoto">Photo</string>
     <string name="visualize_anomaly_anomalyTitle_textInputLayout">Title</string>
     <string name="visualize_anomaly_anomalyDesc_textInputLayout">Description</string>
+    <string name="visualize_anomaly_TypeTextView">Type</string>
     <string name="visualize_anomaly_editButton">Edit</string>
     <string name="visualize_anomaly_deleteButton">Delete</string>
     <string name="visualize_anomaly_anomalyLat">Latitude:</string>
     <string name="visualize_anomaly_anomalyLng">Longitude:</string>
-    <!--    Anomaly Delete Popup    -->
-    <string name="visualize_anomaly_delete_popup_title">Delete</string>
-    <string name="visualize_anomaly_delete_popup_message">These changes cannot be reversed!</string>
-    <string name="visualize_anomaly_delete_popup_yes">Yes</string>
-    <string name="visualize_anomaly_delete_popup_cancel">Cancel</string>
+    <string name="visualize_anomaly_emptySpinnerMessage">Select an anomaly type</string>
+        <!--    Anomaly Delete Popup    -->
+        <string name="visualize_anomaly_delete_popup_title">Delete</string>
+        <string name="visualize_anomaly_delete_popup_message">These changes cannot be reversed!</string>
+        <string name="visualize_anomaly_delete_popup_yes">Yes</string>
+        <string name="visualize_anomaly_delete_popup_cancel">Cancel</string>
+        <!--    Update Anomaly    -->
+        <string name="update_anomaly_ObligationError">Field can´t be empty</string>
+        <string name="update_anomaly_titleLengthError">Title too long</string>
+        <string name="update_anomaly_descLengthError">Description too long</string>
 </resources>
