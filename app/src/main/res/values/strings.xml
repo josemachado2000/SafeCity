@@ -102,6 +102,7 @@
     <string name="insert_anomaly_descLengthError">Description too long</string>
     <string name="insert_anomaly_emptySpinnerMessage">Select an anomaly type</string>
     <string name="insert_anomaly_uploadPhotoMessage">Upload an image</string>
+    <string name="insert_anomaly_fileChooserMessage">Select a file</string>
 
     <!--    Visualize Anomaly    -->
     <string name="visualize_anomaly_screenTitle">Anomaly</string>
@@ -111,9 +112,11 @@
     <string name="visualize_anomaly_TypeTextView">Type</string>
     <string name="visualize_anomaly_editButton">Edit</string>
     <string name="visualize_anomaly_deleteButton">Delete</string>
+    <string name="visualize_anomaly_saveAnomaly_button">Save</string>
     <string name="visualize_anomaly_anomalyLat">Latitude:</string>
     <string name="visualize_anomaly_anomalyLng">Longitude:</string>
     <string name="visualize_anomaly_emptySpinnerMessage">Select an anomaly type</string>
+    <string name="visualize_anomaly_fileChooserMessage">Select a file</string>
         <!--    Anomaly Delete Popup    -->
         <string name="visualize_anomaly_delete_popup_title">Delete</string>
         <string name="visualize_anomaly_delete_popup_message">These changes cannot be reversed!</string>

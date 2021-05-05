@@ -108,7 +108,7 @@ class InsertAnomaly : AppCompatActivity() {
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), 101)
             } else {
                 val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                resultLauncherFileChooser.launch(Intent.createChooser(intent, "Select a file"))
+                resultLauncherFileChooser.launch(Intent.createChooser(intent, getString(R.string.insert_anomaly_fileChooserMessage)))
             }
         }
 

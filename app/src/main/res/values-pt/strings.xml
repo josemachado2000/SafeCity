@@ -98,6 +98,7 @@
     <string name="insert_anomaly_descLengthError">Descrição demasiada longo</string>
     <string name="insert_anomaly_emptySpinnerMessage">Selecione um tipo de anomalia</string>
     <string name="insert_anomaly_uploadPhotoMessage">Faça upload de uma imagem</string>
+    <string name="insert_anomaly_fileChooserMessage">Selecione um ficheiro</string>
 
     <!--    Visualize Anomaly    -->
     <string name="visualize_anomaly_screenTitle">Anomalia</string>
@@ -106,11 +107,13 @@
     <string name="visualize_anomaly_anomalyDesc_textInputLayout">Descrição</string>
     <string name="visualize_anomaly_editButton">Editar</string>
     <string name="visualize_anomaly_deleteButton">Eliminar</string>
+    <string name="visualize_anomaly_saveAnomaly_button">Guardar</string>
     <string name="visualize_anomaly_anomalyLat">Latitude:</string>
     <string name="visualize_anomaly_anomalyLng">Longitude:</string>
     <string name="visualize_anomaly_emptySpinnerMessage">Selecione um tipo de anomalia</string>
     <string name="visualize_anomaly_TypeTextView">Tipo</string>
-        <!--    Anomaly Delete Popup    -->
+    <string name="visualize_anomaly_fileChooserMessage">Selecione um ficheiro</string>
+    <!--    Anomaly Delete Popup    -->
         <string name="visualize_anomaly_delete_popup_title">Eliminar</string>
         <string name="visualize_anomaly_delete_popup_message">Estas alterações não poderão ser revertidas!</string>
         <string name="visualize_anomaly_delete_popup_yes">Sim</string>

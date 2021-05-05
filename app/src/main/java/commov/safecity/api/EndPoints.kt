@@ -29,6 +29,19 @@ interface EndPoints {
         @Field("type_id") typeID: Int
     ): Call<Anomaly>
 
+    @FormUrlEncoded
+    @POST("anomaly/{id}")
+    fun updateAnomaly(
+            @Path("id") id: Int,
+            @Field("title") title: String,
+            @Field("description") description: String,
+            @Field("lat") lat: Double,
+            @Field("lng") lng: Double,
+            @Field("photo") photo: String?,
+            @Field("user_id") userID: Int,
+            @Field("type_id") typeID: Int
+    ): Call<Anomaly>
+
     @GET("anomaly/{id}")
     fun deleteAnomalyById(
         @Path("id") id: Int
