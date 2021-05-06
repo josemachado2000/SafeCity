@@ -82,7 +82,7 @@
 
     <!--    Home    -->
     <string name="home_satellite_radioButton">Satélite</string>
-    <string name="home_terrain_radioButton">Terreno</string>
+    <string name="home_normal_radioButton">Normal</string>
     <string name="home_newAnomaly">Nova Anomalia</string>
 
     <!--    Insert Anomaly    -->
@@ -122,4 +122,11 @@
         <string name="update_anomaly_ObligationError">O campo não pode ser vazio</string>
         <string name="update_anomaly_titleLengthError">Título demasiado longo</string>
         <string name="update_anomaly_descLengthError">Descrição demasiada longo</string>
+        <!--    SeekBar Thumb     -->
+        <string name="thumb_all">Todos</string>
+        <string name="thumb_500m">500 m</string>
+        <string name="thumb_1km">1 km</string>
+        <string name="thumb_5km">5 km</string>
+        <string name="thumb_10km">10 km</string>
+        <string name="thumb_more10km">>10 km</string>
 </resources>
