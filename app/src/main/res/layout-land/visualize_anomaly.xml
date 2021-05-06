@@ -39,17 +39,14 @@
 
             <ImageView
                 android:id="@+id/visualize_anomaly_anomalyPhoto"
-                android:layout_width="0dp"
+                android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
                 android:background="#676767"
                 android:contentDescription="@string/visualize_anomaly_anomalyPhoto"
                 android:scaleType="fitCenter"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/upload_vector"
@@ -59,26 +56,28 @@
                 android:id="@+id/visualize_anomaly_anomalyLat"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/visualize_anomaly_anomalyPhoto"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/visualize_anomaly_anomalyPhoto" />
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/visualize_anomaly_anomalyPhoto"
+                app:layout_constraintTop_toTopOf="@+id/visualize_anomaly_anomalyPhoto"
+                app:layout_constraintVertical_bias="0.508" />
 
             <TextView
                 android:id="@+id/visualize_anomaly_anomalyLng"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/visualize_anomaly_anomalyPhoto"
                 app:layout_constraintTop_toBottomOf="@+id/visualize_anomaly_anomalyLat" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -88,8 +87,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginRight="32dp"
                 android:hint="@string/visualize_anomaly_anomalyTitle_textInputLayout"
                 app:boxCornerRadiusBottomEnd="10dp"
                 app:boxCornerRadiusBottomStart="10dp"
@@ -101,9 +100,9 @@
                 app:counterTextColor="@color/white"
                 app:errorEnabled="true"
                 app:hintTextColor="@android:color/darker_gray"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/visualize_anomaly_TypeTextView"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/visualize_anomaly_anomalyLng">
+                app:layout_constraintTop_toBottomOf="@+id/visualize_anomaly_anomalyPhoto">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -164,34 +163,30 @@
 
             <Spinner
                 android:id="@+id/visualize_anomaly_type_spinner"
-                android:layout_width="0dp"
+                android:layout_width="200dp"
                 android:layout_height="40dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="19dp"
                 android:layout_weight="1"
                 android:dropDownWidth="match_parent"
                 android:popupBackground="@color/light_gray"
                 android:spinnerMode="dropdown"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/visualize_anomaly_anomalyTitle_textInputLayout"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/visualize_anomaly_TypeTextView"
-                app:layout_constraintTop_toBottomOf="@+id/visualize_anomaly_anomalyDesc_textInputLayout" />
+                app:layout_constraintTop_toTopOf="@+id/visualize_anomaly_anomalyTitle_textInputLayout" />
 
             <TextView
                 android:id="@+id/visualize_anomaly_TypeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
                 android:text="@string/visualize_anomaly_TypeTextView"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/visualize_anomaly_type_spinner"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/visualize_anomaly_type_spinner"
                 app:layout_constraintTop_toTopOf="@+id/visualize_anomaly_type_spinner" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

@@ -28,7 +28,7 @@ import commov.safecity.api.Anomaly
 import commov.safecity.api.EndPoints
 import commov.safecity.api.ServiceBuilder
 import commov.safecity.api.Type
-import it.sauronsoftware.ftp4j.FTPClient
+import it.sauronsoftware.ftp4j.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -61,7 +61,7 @@ class VisualizeAnomaly : AppCompatActivity() {
                 if (response.isSuccessful) {
                     responseTypes = response.body()
                     for (T in responseTypes) {
-                        if(T.type != anomaly[0]?.type!!)
+                        if (T.type != anomaly[0]?.type!!)
                             types.add(T.type)
                     }
 
@@ -80,6 +80,8 @@ class VisualizeAnomaly : AppCompatActivity() {
                 Toast.makeText(this@VisualizeAnomaly, "Failed to load types", Toast.LENGTH_SHORT).show()
             }
         })
+
+        // val photoImageView = findViewById<ImageView>(R.id.visualize_anomaly_anomalyPhoto)
 
         val latTextView = findViewById<TextView>(R.id.visualize_anomaly_anomalyLat)
         latTextView.text = getString(R.string.visualize_anomaly_anomalyLat).plus("         ").plus(anomaly[0]?.location?.lat)

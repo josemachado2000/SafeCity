@@ -3,6 +3,7 @@ package commov.safecity
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
@@ -15,10 +16,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.view.LayoutInflater
-import android.widget.RadioButton
-import android.widget.SeekBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -49,7 +47,8 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
     private lateinit var locationCallback: LocationCallback
     private lateinit var locationRequest: LocationRequest
 
-    private val checkedItems = booleanArrayOf(false, false, false, false, false)
+    private lateinit var anomalies: List<Anomaly>
+
     private lateinit var thumbView: View
 
     @SuppressLint("MissingPermission")
@@ -73,13 +72,19 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
                     Log.i("InsertAnomaly", location.toString())
                     val currentLocation = LatLng(location.latitude, location.longitude)
 
-                    val intent = Intent(this@Home, InsertAnomaly::class.java).apply { putExtra("currentLocation", currentLocation) }
+                    val intent = Intent(this@Home, InsertAnomaly::class.java).apply { putExtra(
+                        "currentLocation",
+                        currentLocation
+                    ) }
                     startActivity(intent)
                 }
             }
         }
 
-        val loginSharedPref: SharedPreferences = getSharedPreferences(getString(R.string.login_preference_file), Context.MODE_PRIVATE)
+        val loginSharedPref: SharedPreferences = getSharedPreferences(
+            getString(R.string.login_preference_file),
+            Context.MODE_PRIVATE
+        )
         if(!loginSharedPref.getBoolean("logged", false)) {
             fabInsertAnomaly.isInvisible = true
         }
@@ -90,7 +95,10 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
                 super.onLocationResult(p0)
                 lastLocation = p0.lastLocation
                 val location = LatLng(lastLocation.latitude, lastLocation.longitude)
-                Log.i("Location", location.latitude.toString() + "   " + location.longitude.toString())
+                Log.i(
+                    "Location",
+                    location.latitude.toString() + "   " + location.longitude.toString()
+                )
             }
         }
         thumbView = LayoutInflater.from(this@Home).inflate(R.layout.seekbar_thumb, null, false)
@@ -99,16 +107,24 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
     // Location Permission
     private fun enableMyLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
+                && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                1
+            )
             return
         } else { map.isMyLocationEnabled = true }
     }
 
     override fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<String>,
-            grantResults: IntArray) {
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 1) {
             if (grantResults.contains(PackageManager.PERMISSION_GRANTED)) {
@@ -126,7 +142,11 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
 
     private fun startLocationUpdates() {
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                1
+            )
             return
         }
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
@@ -149,13 +169,15 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
         return results[0]
     }
 
-    private lateinit var anomalies: List<Anomaly>
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         map.setOnInfoWindowClickListener(this)
         map.uiSettings.isZoomControlsEnabled = true
 
-        val loginSharedPref: SharedPreferences = getSharedPreferences(applicationContext.getString(R.string.login_preference_file), Context.MODE_PRIVATE)
+        val loginSharedPref: SharedPreferences = getSharedPreferences(
+            applicationContext.getString(R.string.login_preference_file),
+            Context.MODE_PRIVATE
+        )
         val userID = loginSharedPref.getInt("loggedUserID", 0)
 
         val request = ServiceBuilder.buildService(EndPoints::class.java)
@@ -169,16 +191,22 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
                     for (anomaly in anomalies) {
                         if (anomaly.userID == userID) {
                             val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
-                            val marker: Marker? = map.addMarker(MarkerOptions()
+                            val marker: Marker? = map.addMarker(
+                                MarkerOptions()
                                     .position(markerLatLng)
                                     .title(anomaly.type)
                                     .snippet(anomaly.photo)
-                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                                    .icon(
+                                        BitmapDescriptorFactory.defaultMarker(
+                                            BitmapDescriptorFactory.HUE_AZURE
+                                        )
+                                    )
                             )
                             marker?.tag = anomaly
                         } else {
                             val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
-                            val marker: Marker? = map.addMarker(MarkerOptions()
+                            val marker: Marker? = map.addMarker(
+                                MarkerOptions()
                                     .position(markerLatLng)
                                     .title(anomaly.type)
                                     .snippet(anomaly.photo)
@@ -196,7 +224,11 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
             && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                1
+            )
             return
         } else {
             map.isMyLocationEnabled = true
@@ -211,26 +243,64 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
         }
 
         map.setOnMarkerClickListener {
-            map.setInfoWindowAdapter(MarkerInfoWindow(this))
+            map.setInfoWindowAdapter(MarkerInfoWindow(this, it))
             onMarkerClick()
             map.setOnInfoWindowCloseListener {
                 val fabInsertAnomaly = findViewById<FloatingActionButton>(R.id.home_fab_insertAnomaly)
+                val mapTypeRadioGroup = findViewById<RadioGroup>(R.id.home_mapType_radioGroup)
+                val seekBarDistance = findViewById<SeekBar>(R.id.home_distance_seekBar)
                 fabInsertAnomaly.isVisible = true
+                mapTypeRadioGroup.isVisible = true
+                seekBarDistance.isVisible = true
             }
             false
         }
 
         fun getThumb(progress: Int): Drawable {
             when (progress) {
-                0 -> { (thumbView.findViewById(R.id.seekBar_distance_progress) as TextView).text = getString(R.string.thumb_all) }
-                1 -> { (thumbView.findViewById(R.id.seekBar_distance_progress) as TextView).text = getString(R.string.thumb_500m) }
-                2 -> { (thumbView.findViewById(R.id.seekBar_distance_progress) as TextView).text = getString(R.string.thumb_1km) }
-                3 -> { (thumbView.findViewById(R.id.seekBar_distance_progress) as TextView).text = getString(R.string.thumb_5km) }
-                4 -> { (thumbView.findViewById(R.id.seekBar_distance_progress) as TextView).text = getString(R.string.thumb_10km) }
-                5 -> { (thumbView.findViewById(R.id.seekBar_distance_progress) as TextView).text = getString(R.string.thumb_more10km) }
+                0 -> {
+                    (thumbView.findViewById(R.id.seekBar_distance_progress) as TextView).text =
+                        getString(
+                            R.string.thumb_all
+                        )
+                }
+                1 -> {
+                    (thumbView.findViewById(R.id.seekBar_distance_progress) as TextView).text =
+                        getString(
+                            R.string.thumb_500m
+                        )
+                }
+                2 -> {
+                    (thumbView.findViewById(R.id.seekBar_distance_progress) as TextView).text =
+                        getString(
+                            R.string.thumb_1km
+                        )
+                }
+                3 -> {
+                    (thumbView.findViewById(R.id.seekBar_distance_progress) as TextView).text =
+                        getString(
+                            R.string.thumb_5km
+                        )
+                }
+                4 -> {
+                    (thumbView.findViewById(R.id.seekBar_distance_progress) as TextView).text =
+                        getString(
+                            R.string.thumb_10km
+                        )
+                }
+                5 -> {
+                    (thumbView.findViewById(R.id.seekBar_distance_progress) as TextView).text =
+                        getString(
+                            R.string.thumb_more10km
+                        )
+                }
             }
             thumbView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
-            val bitmap: Bitmap = Bitmap.createBitmap(thumbView.measuredWidth, thumbView.measuredHeight, Bitmap.Config.ARGB_8888)
+            val bitmap: Bitmap = Bitmap.createBitmap(
+                thumbView.measuredWidth,
+                thumbView.measuredHeight,
+                Bitmap.Config.ARGB_8888
+            )
             val canvas = Canvas(bitmap)
             thumbView.layout(0, 0, thumbView.measuredWidth, thumbView.measuredHeight)
             thumbView.draw(canvas)
@@ -252,17 +322,29 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
                     seek.thumb = getThumb(progress)
                     map.clear()
                     for (A in anomalies) {
-                        if (calculateDistance(lastLocation.latitude, lastLocation.longitude, A.location.lat, A.location.lng) <= 500) {
+                        if (calculateDistance(
+                                lastLocation.latitude,
+                                lastLocation.longitude,
+                                A.location.lat,
+                                A.location.lng
+                            ) <= 500
+                        ) {
                             if (A.userID == userID) {
                                 val markerLatLng = LatLng(A.location.lat, A.location.lng)
-                                map.addMarker(MarkerOptions()
+                                map.addMarker(
+                                    MarkerOptions()
                                         .position(markerLatLng)
                                         .title(A.type)
-                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                                        .icon(
+                                            BitmapDescriptorFactory.defaultMarker(
+                                                BitmapDescriptorFactory.HUE_AZURE
+                                            )
+                                        )
                                 )
                             } else {
                                 val markerLatLng = LatLng(A.location.lat, A.location.lng)
-                                map.addMarker(MarkerOptions()
+                                map.addMarker(
+                                    MarkerOptions()
                                         .position(markerLatLng)
                                         .title(A.type)
                                 )
@@ -274,17 +356,29 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
                     seek.thumb = getThumb(progress)
                     map.clear()
                     for (A in anomalies) {
-                        if (calculateDistance(lastLocation.latitude, lastLocation.longitude, A.location.lat, A.location.lng) <= 1000) {
+                        if (calculateDistance(
+                                lastLocation.latitude,
+                                lastLocation.longitude,
+                                A.location.lat,
+                                A.location.lng
+                            ) <= 1000
+                        ) {
                             if (A.userID == userID) {
                                 val markerLatLng = LatLng(A.location.lat, A.location.lng)
-                                map.addMarker(MarkerOptions()
+                                map.addMarker(
+                                    MarkerOptions()
                                         .position(markerLatLng)
                                         .title(A.type)
-                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                                        .icon(
+                                            BitmapDescriptorFactory.defaultMarker(
+                                                BitmapDescriptorFactory.HUE_AZURE
+                                            )
+                                        )
                                 )
                             } else {
                                 val markerLatLng = LatLng(A.location.lat, A.location.lng)
-                                map.addMarker(MarkerOptions()
+                                map.addMarker(
+                                    MarkerOptions()
                                         .position(markerLatLng)
                                         .title(A.type)
                                 )
@@ -296,17 +390,29 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
                     seek.thumb = getThumb(progress)
                     map.clear()
                     for (A in anomalies) {
-                        if (calculateDistance(lastLocation.latitude, lastLocation.longitude, A.location.lat, A.location.lng) <= 5000) {
+                        if (calculateDistance(
+                                lastLocation.latitude,
+                                lastLocation.longitude,
+                                A.location.lat,
+                                A.location.lng
+                            ) <= 5000
+                        ) {
                             if (A.userID == userID) {
                                 val markerLatLng = LatLng(A.location.lat, A.location.lng)
-                                map.addMarker(MarkerOptions()
+                                map.addMarker(
+                                    MarkerOptions()
                                         .position(markerLatLng)
                                         .title(A.type)
-                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                                        .icon(
+                                            BitmapDescriptorFactory.defaultMarker(
+                                                BitmapDescriptorFactory.HUE_AZURE
+                                            )
+                                        )
                                 )
                             } else {
                                 val markerLatLng = LatLng(A.location.lat, A.location.lng)
-                                map.addMarker(MarkerOptions()
+                                map.addMarker(
+                                    MarkerOptions()
                                         .position(markerLatLng)
                                         .title(A.type)
                                 )
@@ -318,17 +424,29 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
                     seek.thumb = getThumb(progress)
                     map.clear()
                     for (A in anomalies) {
-                        if (calculateDistance(lastLocation.latitude, lastLocation.longitude, A.location.lat, A.location.lng) <= 10000) {
+                        if (calculateDistance(
+                                lastLocation.latitude,
+                                lastLocation.longitude,
+                                A.location.lat,
+                                A.location.lng
+                            ) <= 10000
+                        ) {
                             if (A.userID == userID) {
                                 val markerLatLng = LatLng(A.location.lat, A.location.lng)
-                                map.addMarker(MarkerOptions()
+                                map.addMarker(
+                                    MarkerOptions()
                                         .position(markerLatLng)
                                         .title(A.type)
-                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                                        .icon(
+                                            BitmapDescriptorFactory.defaultMarker(
+                                                BitmapDescriptorFactory.HUE_AZURE
+                                            )
+                                        )
                                 )
                             } else {
                                 val markerLatLng = LatLng(A.location.lat, A.location.lng)
-                                map.addMarker(MarkerOptions()
+                                map.addMarker(
+                                    MarkerOptions()
                                         .position(markerLatLng)
                                         .title(A.type)
                                 )
@@ -340,17 +458,29 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
                     seek.thumb = getThumb(progress)
                     map.clear()
                     for (A in anomalies) {
-                        if (calculateDistance(lastLocation.latitude, lastLocation.longitude, A.location.lat, A.location.lng) > 10000) {
+                        if (calculateDistance(
+                                lastLocation.latitude,
+                                lastLocation.longitude,
+                                A.location.lat,
+                                A.location.lng
+                            ) > 10000
+                        ) {
                             if (A.userID == userID) {
                                 val markerLatLng = LatLng(A.location.lat, A.location.lng)
-                                map.addMarker(MarkerOptions()
+                                map.addMarker(
+                                    MarkerOptions()
                                         .position(markerLatLng)
                                         .title(A.type)
-                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                                        .icon(
+                                            BitmapDescriptorFactory.defaultMarker(
+                                                BitmapDescriptorFactory.HUE_AZURE
+                                            )
+                                        )
                                 )
                             } else {
                                 val markerLatLng = LatLng(A.location.lat, A.location.lng)
-                                map.addMarker(MarkerOptions()
+                                map.addMarker(
+                                    MarkerOptions()
                                         .position(markerLatLng)
                                         .title(A.type)
                                 )
@@ -373,13 +503,20 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
     override fun onInfoWindowClick(marker: Marker) {
         val anomaly = arrayListOf<Anomaly>()
         anomaly.add(marker.tag as Anomaly)
-        val intent = Intent(this@Home, VisualizeAnomaly::class.java).apply { putExtra("markerTag", anomaly) }
+        val intent = Intent(this@Home, VisualizeAnomaly::class.java).apply { putExtra(
+            "markerTag",
+            anomaly
+        ) }
         startActivity(intent)
     }
 
     private fun onMarkerClick(): Boolean {
         val fabInsertAnomaly = findViewById<FloatingActionButton>(R.id.home_fab_insertAnomaly)
+        val mapTypeRadioGroup = findViewById<RadioGroup>(R.id.home_mapType_radioGroup)
+        val seekBarDistance = findViewById<SeekBar>(R.id.home_distance_seekBar)
         fabInsertAnomaly.isInvisible = true
+        mapTypeRadioGroup.isInvisible = true
+        seekBarDistance.isInvisible = true
 
         // Return false to indicate that we have not consumed the event and that we wish
         // for the default behavior to occur (which is for the camera to move such that the
@@ -389,7 +526,10 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
 
     // Menu
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val loginSharedPref: SharedPreferences = getSharedPreferences(getString(R.string.login_preference_file), Context.MODE_PRIVATE)
+        val loginSharedPref: SharedPreferences = getSharedPreferences(
+            getString(R.string.login_preference_file),
+            Context.MODE_PRIVATE
+        )
         return if (loginSharedPref.getBoolean("logged", false)) {
             val inflater: MenuInflater = menuInflater
             inflater.inflate(R.menu.home_menu, menu)
@@ -403,88 +543,60 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle item selection
-        val loginSharedPref: SharedPreferences = getSharedPreferences(getString(R.string.login_preference_file), Context.MODE_PRIVATE)
+        val loginSharedPref: SharedPreferences = getSharedPreferences(
+            getString(R.string.login_preference_file),
+            Context.MODE_PRIVATE
+        )
         val userID = loginSharedPref.getInt("loggedUserID", 0)
         return when (item.itemId) {
-//            R.id.login -> {
-//                val intent = Intent(this@Home, Login::class.java)
-//                startActivity(intent)
-//                true
-//            }
-
             // Filter options
             R.id.home_menu_typeFilter -> {
                 // Set up the alert builder
                 val builder = AlertDialog.Builder(this)
-                builder.setTitle("Choose Anomaly Type")
+                builder.setTitle(getString(R.string.home_menu_typeFilter_alertDialogTitle))
 
                 // Add a checkbox list
-                val types = arrayOf(getString(R.string.home_menu_typeFilter_accident),
-                        getString(R.string.home_menu_typeFilter_roadWork),
-                        getString(R.string.home_menu_typeFilter_roadObstacle),
-                        getString(R.string.home_menu_typeFilter_traffic),
-                        getString(R.string.home_menu_typeFilter_roadPothole)
+                val types = arrayOf(
+                    getString(R.string.home_menu_typeFilter_accident),
+                    getString(R.string.home_menu_typeFilter_roadWork),
+                    getString(R.string.home_menu_typeFilter_roadObstacle),
+                    getString(R.string.home_menu_typeFilter_traffic),
+                    getString(R.string.home_menu_typeFilter_roadPothole)
                 )
 
-                val checkedAnomalies = arrayListOf<Anomaly>()
-                Log.i("Filter",
-                        "${checkedItems[0]}" +
-                                "     ${checkedItems[1]}" +
-                                "     ${checkedItems[2]}" +
-                                "     ${checkedItems[3]}" +
-                                "     ${checkedItems[4]}"
-                )
-
-                builder.setMultiChoiceItems(types, checkedItems) { dialog, which, isChecked ->
-                    // The user checked or unchecked a box
-                    Log.i("Filter", dialog.toString())
-                    Log.i("Filter", which.toString())
-                    Log.i("Filter", isChecked.toString())
-
-                    if (which == 0 && isChecked) {
-                        checkedItems[0] = true
-                        val filteredAnomalies = anomalies.filter { it.type == getString(R.string.home_menu_typeFilter_accident) }
-                        checkedAnomalies += filteredAnomalies
-                    } else if (which == 0 && !isChecked) {
-                        val filteredAnomalies = anomalies.filter { it.type == getString(R.string.home_menu_typeFilter_accident) }
-                        checkedAnomalies -= filteredAnomalies
-                    }
-                    if (which == 1 && isChecked) {
-                        checkedItems[1] = true
-                        val filteredAnomalies = anomalies.filter { it.type == getString(R.string.home_menu_typeFilter_roadWork) }
-                        checkedAnomalies += filteredAnomalies
-                    } else if (which == 1 && !isChecked) {
-                        val filteredAnomalies = anomalies.filter { it.type == getString(R.string.home_menu_typeFilter_roadWork) }
-                        checkedAnomalies -= filteredAnomalies
-                    }
-                    if (which == 2 && isChecked) {
-                        checkedItems[2] = true
-                        val filteredAnomalies = anomalies.filter { it.type == getString(R.string.home_menu_typeFilter_roadObstacle) }
-                        checkedAnomalies += filteredAnomalies
-                    } else if (which == 2 && !isChecked) {
-                        val filteredAnomalies = anomalies.filter { it.type == getString(R.string.home_menu_typeFilter_roadObstacle) }
-                        checkedAnomalies -= filteredAnomalies
-                    }
-                    if (which == 3 && isChecked) {
-                        checkedItems[3] = true
-                        val filteredAnomalies = anomalies.filter { it.type == getString(R.string.home_menu_typeFilter_traffic) }
-                        checkedAnomalies += filteredAnomalies
-                    } else if (which == 3 && !isChecked) {
-                        val filteredAnomalies = anomalies.filter { it.type == getString(R.string.home_menu_typeFilter_traffic) }
-                        checkedAnomalies -= filteredAnomalies
-                    }
-                    if (which == 4 && isChecked) {
-                        checkedItems[4] = true
-                        val filteredAnomalies = anomalies.filter { it.type == getString(R.string.home_menu_typeFilter_roadPothole) }
-                        checkedAnomalies += filteredAnomalies
-                    } else if (which == 4 && !isChecked) {
-                        val filteredAnomalies = anomalies.filter { it.type == getString(R.string.home_menu_typeFilter_roadPothole) }
-                        checkedAnomalies -= filteredAnomalies
+                val checkedAnomalies = mutableListOf<Anomaly>()
+                builder.setSingleChoiceItems(types, 0) { _, which ->
+                    when (which) {
+                        0 -> {
+                            val filteredAnomalies =
+                                    anomalies.filter { it.type == "Acidente" }
+                            checkedAnomalies += filteredAnomalies
+                        }
+                        1 -> {
+                            val filteredAnomalies =
+                                    anomalies.filter { it.type == "Obra na via" }
+                            checkedAnomalies += filteredAnomalies
+                        }
+                        2 -> {
+                            val filteredAnomalies =
+                                    anomalies.filter { it.type == "Obstáculo na via" }
+                            checkedAnomalies += filteredAnomalies
+                        }
+                        3 -> {
+                            val filteredAnomalies =
+                                    anomalies.filter { it.type == "Trânsito" }
+                            checkedAnomalies += filteredAnomalies
+                        }
+                        4 -> {
+                            val filteredAnomalies =
+                                    anomalies.filter { it.type == "Buraco na via" }
+                            checkedAnomalies += filteredAnomalies
+                        }
                     }
                 }
 
                 // Add OK and Cancel buttons
-                builder.setPositiveButton("OK") { dialog, which ->
+                builder.setPositiveButton(getString(R.string.home_menu_typeFilter_alertDialogOk)) { dialog, which ->
                     // The user clicked OK
                     Log.i("Filter", dialog.toString())
                     Log.i("Filter", which.toString())
@@ -494,50 +606,57 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
                     for (anomaly in checkedAnomalies) {
                         if (anomaly.userID == userID) {
                             val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
-                            map.addMarker(MarkerOptions()
-                                    .position(markerLatLng)
-                                    .title(anomaly.type)
-                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                            val marker: Marker? = map.addMarker(MarkerOptions()
+                                .position(markerLatLng)
+                                .title(anomaly.type)
+                                .icon(
+                                    BitmapDescriptorFactory.defaultMarker(
+                                        BitmapDescriptorFactory.HUE_AZURE
+                                    )
+                                )
                             )
+                            marker?.tag = anomaly
                         } else {
                             val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
-                            map.addMarker(MarkerOptions()
-                                    .position(markerLatLng)
-                                    .title(anomaly.type)
+                            val marker: Marker? = map.addMarker(MarkerOptions()
+                                .position(markerLatLng)
+                                .title(anomaly.type)
                             )
+                            marker?.tag = anomaly
                         }
                     }
                 }
-                builder.setNegativeButton("Cancel") { _, _ ->
+                builder.setNegativeButton (getString(R.string.home_menu_typeFilter_alertDialogClear)) { _, _ ->
                     onMapReady(map)
                 }
 
                 // Create and show the alert dialog
                 val dialog = builder.create()
                 dialog.show()
-                true
-            }
-            R.id.logout -> {
-                with(loginSharedPref.edit()) {
-                    clear()
-                    apply()
+                    true
                 }
 
-                val intent = Intent(this@Home, Login::class.java)
-                startActivity(intent)
-                finishAffinity()
-                true
-            }
-            R.id.notes -> {
-                val intent = Intent(this@Home, Notes::class.java)
-                startActivity(intent)
-                true
-            }
-            R.id.sensors -> {
-                val intent = Intent(this@Home, Sensors::class.java)
-                startActivity(intent)
-                true
-            }
+                R.id.logout -> {
+                    with(loginSharedPref.edit()) {
+                        clear()
+                        apply()
+                    }
+
+                    val intent = Intent(this@Home, Login::class.java)
+                    startActivity(intent)
+                    finishAffinity()
+                    true
+                }
+                R.id.notes -> {
+                    val intent = Intent(this@Home, Notes::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.sensors -> {
+                    val intent = Intent(this@Home, Sensors::class.java)
+                    startActivity(intent)
+                    true
+                }
             else -> super.onOptionsItemSelected(item)
         }
     }

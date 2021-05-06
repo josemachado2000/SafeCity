@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
 
         val loginSharedPref: SharedPreferences = getSharedPreferences(getString(R.string.login_preference_file), Context.MODE_PRIVATE)
         Handler(Looper.getMainLooper()).postDelayed({
-            Toast.makeText(this, loginSharedPref.getString("loggedUsername", ""), Toast.LENGTH_SHORT).show()
+            // Toast.makeText(this, loginSharedPref.getString("loggedUsername", ""), Toast.LENGTH_SHORT).show()
             if (loginSharedPref.getBoolean("logged", false)) {
                 val intent = Intent(this, Home::class.java)
                 startActivity(intent)

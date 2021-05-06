@@ -18,6 +18,9 @@
     <string name="typeFilter">Types</string>
     <string name="sensors">Sensores</string>
         <!--    Filter SubMenu    -->
+        <string name="home_menu_typeFilter_alertDialogTitle">Escolha um tipo de anomalia</string>
+        <string name="home_menu_typeFilter_alertDialogOk">OK</string>
+        <string name="home_menu_typeFilter_alertDialogClear">Limpar</string>
         <string name="home_menu_typeFilter_accident">Acidente</string>
         <string name="home_menu_typeFilter_roadWork">Obra na via</string>
         <string name="home_menu_typeFilter_roadObstacle">Obstáculo na via</string>
@@ -79,7 +82,7 @@
     <string name="loggedUserID">loggedUserID</string>
 
     <!--    Marker Info Window    -->
-    <string name="marker_visualize_button">Visualizar</string>
+    <string name="marker_clickMessage">Clique para mais detalhes</string>
 
     <!--    Home    -->
     <string name="home_satellite_radioButton">Satélite</string>
