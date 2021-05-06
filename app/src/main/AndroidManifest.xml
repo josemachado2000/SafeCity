@@ -41,5 +41,6 @@
         <activity android:name="commov.safecity.Login"/>
         <activity android:name="commov.safecity.InsertAnomaly"/>
         <activity android:name="commov.safecity.VisualizeAnomaly"/>
+        <activity android:name="commov.safecity.Sensors"/>
     </application>
 </manifest>

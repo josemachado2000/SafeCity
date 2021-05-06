@@ -517,133 +517,6 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
                 dialog.show()
                 true
             }
-
-//            R.id.home_menu_typeFilter_accident -> {
-//                if(item.isChecked) {
-//                    item.isChecked = false
-//                } else {
-//                    item.isChecked = true
-//                    val filteredAnomalies = anomalies.filter { it.type == "Acidente" }
-//                    for (anomaly in filteredAnomalies) {
-//                        if (anomaly.userID == userID) {
-//                            val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
-//                            map.addMarker(MarkerOptions()
-//                                    .position(markerLatLng)
-//                                    .title(anomaly.type)
-//                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-//                            )
-//                        } else {
-//                            val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
-//                            map.addMarker(MarkerOptions()
-//                                    .position(markerLatLng)
-//                                    .title(anomaly.type)
-//                            )
-//                        }
-//                    }
-//                }
-//                true
-//            }
-//            R.id.home_menu_typeFilter_roadWork -> {
-//                if(item.isChecked) {
-//                    item.isChecked = false
-//                } else {
-//                    item.isChecked = true
-//                    val filteredAnomalies = anomalies.filter { it.type == "Obra na via" }
-//                    for (anomaly in filteredAnomalies) {
-//                        if (anomaly.userID == userID) {
-//                            val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
-//                            map.addMarker(MarkerOptions()
-//                                    .position(markerLatLng)
-//                                    .title(anomaly.type)
-//                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-//                            )
-//                        } else {
-//                            val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
-//                            map.addMarker(MarkerOptions()
-//                                    .position(markerLatLng)
-//                                    .title(anomaly.type)
-//                            )
-//                        }
-//                    }
-//                }
-//                true
-//            }
-//            R.id.home_menu_typeFilter_roadObstacle -> {
-//                if(item.isChecked) {
-//                    item.isChecked = false
-//                } else {
-//                    item.isChecked = true
-//                    val filteredAnomalies = anomalies.filter { it.type == "Obstáculo na via" }
-//                    for (anomaly in filteredAnomalies) {
-//                        if (anomaly.userID == userID) {
-//                            val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
-//                            map.addMarker(MarkerOptions()
-//                                    .position(markerLatLng)
-//                                    .title(anomaly.type)
-//                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-//                            )
-//                        } else {
-//                            val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
-//                            map.addMarker(MarkerOptions()
-//                                    .position(markerLatLng)
-//                                    .title(anomaly.type)
-//                            )
-//                        }
-//                    }
-//                }
-//                true
-//            }
-//            R.id.home_menu_typeFilter_traffic -> {
-//                if(item.isChecked) {
-//                    item.isChecked = false
-//                } else {
-//                    item.isChecked = true
-//                    val filteredAnomalies = anomalies.filter { it.type == "Trânsito" }
-//                    for (anomaly in filteredAnomalies) {
-//                        if (anomaly.userID == userID) {
-//                            val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
-//                            map.addMarker(MarkerOptions()
-//                                    .position(markerLatLng)
-//                                    .title(anomaly.type)
-//                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-//                            )
-//                        } else {
-//                            val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
-//                            map.addMarker(MarkerOptions()
-//                                    .position(markerLatLng)
-//                                    .title(anomaly.type)
-//                            )
-//                        }
-//                    }
-//                }
-//                true
-//            }
-//            R.id.home_menu_typeFilter_roadPothole -> {
-//                if(item.isChecked) {
-//                    item.isChecked = false
-//                } else {
-//                    item.isChecked = true
-//                    val filteredAnomalies = anomalies.filter { it.type == "Buraco na via" }
-//                    for (anomaly in filteredAnomalies) {
-//                        if (anomaly.userID == userID) {
-//                            val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
-//                            map.addMarker(MarkerOptions()
-//                                    .position(markerLatLng)
-//                                    .title(anomaly.type)
-//                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-//                            )
-//                        } else {
-//                            val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
-//                            map.addMarker(MarkerOptions()
-//                                    .position(markerLatLng)
-//                                    .title(anomaly.type)
-//                            )
-//                        }
-//                    }
-//                }
-//                true
-//            }
-
             R.id.logout -> {
                 with(loginSharedPref.edit()) {
                     clear()
@@ -657,6 +530,11 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
             }
             R.id.notes -> {
                 val intent = Intent(this@Home, Notes::class.java)
+                startActivity(intent)
+                true
+            }
+            R.id.sensors -> {
+                val intent = Intent(this@Home, Sensors::class.java)
                 startActivity(intent)
                 true
             }

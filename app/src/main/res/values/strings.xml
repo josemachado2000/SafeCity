@@ -16,6 +16,7 @@
     <string name="about">About</string>
     <string name="anomaliesMap">Anomalies</string>
     <string name="typeFilter">Types</string>
+    <string name="sensors">Sensors</string>
         <!--    Filter SubMenu    -->
         <string name="home_menu_typeFilter_accident">Accident</string>
         <string name="home_menu_typeFilter_roadWork">Road Work</string>
