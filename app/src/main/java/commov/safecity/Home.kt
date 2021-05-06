@@ -6,14 +6,18 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
+import android.view.LayoutInflater
 import android.widget.RadioButton
+import android.widget.SeekBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -37,6 +41,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
 class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
     private lateinit var map: GoogleMap
     private lateinit var lastLocation: Location
@@ -45,6 +50,7 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
     private lateinit var locationRequest: LocationRequest
 
     private val checkedItems = booleanArrayOf(false, false, false, false, false)
+    private lateinit var thumbView: View
 
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +67,7 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
         val fabInsertAnomaly = findViewById<FloatingActionButton>(R.id.home_fab_insertAnomaly)
         fabInsertAnomaly.setOnClickListener {
             enableMyLocation()
-            fusedLocationClient.lastLocation.addOnSuccessListener { location : Location? ->
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
                 // Got last known location. In some rare situations this can be null.
                 if (location != null) {
                     Log.i("InsertAnomaly", location.toString())
@@ -84,10 +90,10 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
                 super.onLocationResult(p0)
                 lastLocation = p0.lastLocation
                 val location = LatLng(lastLocation.latitude, lastLocation.longitude)
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16.0f))
                 Log.i("Location", location.latitude.toString() + "   " + location.longitude.toString())
             }
         }
+        thumbView = LayoutInflater.from(this@Home).inflate(R.layout.seekbar_thumb, null, false)
     }
 
     // Location Permission
@@ -139,6 +145,7 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
     fun calculateDistance(lat1: Double, lng1: Double, lat2: Double, lng2: Double): Float {
         val results = FloatArray(1)
         Location.distanceBetween(lat1, lng1, lat2, lng2, results)
+        Log.i("Distance", results[0].toString())
         return results[0]
     }
 
@@ -160,7 +167,7 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
                     Log.i("Response", response.body().toString())
                     anomalies = response.body()!!
                     for (anomaly in anomalies) {
-                        if(anomaly.userID == userID) {
+                        if (anomaly.userID == userID) {
                             val markerLatLng = LatLng(anomaly.location.lat, anomaly.location.lng)
                             val marker: Marker? = map.addMarker(MarkerOptions()
                                     .position(markerLatLng)
@@ -193,7 +200,7 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
             return
         } else {
             map.isMyLocationEnabled = true
-            fusedLocationClient.lastLocation.addOnSuccessListener { location : Location? ->
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
                 // Got last known location. In some rare situations this can be null.
                 if (location != null) {
                     Log.i("Location", location.toString())
@@ -212,6 +219,155 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
             }
             false
         }
+
+        fun getThumb(progress: Int): Drawable {
+            when (progress) {
+                0 -> { (thumbView.findViewById(R.id.seekBar_distance_progress) as TextView).text = getString(R.string.thumb_all) }
+                1 -> { (thumbView.findViewById(R.id.seekBar_distance_progress) as TextView).text = getString(R.string.thumb_500m) }
+                2 -> { (thumbView.findViewById(R.id.seekBar_distance_progress) as TextView).text = getString(R.string.thumb_1km) }
+                3 -> { (thumbView.findViewById(R.id.seekBar_distance_progress) as TextView).text = getString(R.string.thumb_5km) }
+                4 -> { (thumbView.findViewById(R.id.seekBar_distance_progress) as TextView).text = getString(R.string.thumb_10km) }
+                5 -> { (thumbView.findViewById(R.id.seekBar_distance_progress) as TextView).text = getString(R.string.thumb_more10km) }
+            }
+            thumbView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+            val bitmap: Bitmap = Bitmap.createBitmap(thumbView.measuredWidth, thumbView.measuredHeight, Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(bitmap)
+            thumbView.layout(0, 0, thumbView.measuredWidth, thumbView.measuredHeight)
+            thumbView.draw(canvas)
+            return BitmapDrawable(resources, bitmap)
+        }
+
+        val distanceSeekBar = findViewById<SeekBar>(R.id.home_distance_seekBar)
+        distanceSeekBar.thumb = getThumb(0)
+        distanceSeekBar?.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seek: SeekBar, progress: Int, fromUser: Boolean) {
+                // write custom code for progress is changed
+                Log.i("Distance", progress.toString())
+                if (progress == 0) {
+                    seek.thumb = getThumb(progress)
+                    map.clear()
+                    onMapReady(map)
+                }
+                if (progress == 1) {
+                    seek.thumb = getThumb(progress)
+                    map.clear()
+                    for (A in anomalies) {
+                        if (calculateDistance(lastLocation.latitude, lastLocation.longitude, A.location.lat, A.location.lng) <= 500) {
+                            if (A.userID == userID) {
+                                val markerLatLng = LatLng(A.location.lat, A.location.lng)
+                                map.addMarker(MarkerOptions()
+                                        .position(markerLatLng)
+                                        .title(A.type)
+                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                                )
+                            } else {
+                                val markerLatLng = LatLng(A.location.lat, A.location.lng)
+                                map.addMarker(MarkerOptions()
+                                        .position(markerLatLng)
+                                        .title(A.type)
+                                )
+                            }
+                        }
+                    }
+                }
+                if (progress == 2) {
+                    seek.thumb = getThumb(progress)
+                    map.clear()
+                    for (A in anomalies) {
+                        if (calculateDistance(lastLocation.latitude, lastLocation.longitude, A.location.lat, A.location.lng) <= 1000) {
+                            if (A.userID == userID) {
+                                val markerLatLng = LatLng(A.location.lat, A.location.lng)
+                                map.addMarker(MarkerOptions()
+                                        .position(markerLatLng)
+                                        .title(A.type)
+                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                                )
+                            } else {
+                                val markerLatLng = LatLng(A.location.lat, A.location.lng)
+                                map.addMarker(MarkerOptions()
+                                        .position(markerLatLng)
+                                        .title(A.type)
+                                )
+                            }
+                        }
+                    }
+                }
+                if (progress == 3) {
+                    seek.thumb = getThumb(progress)
+                    map.clear()
+                    for (A in anomalies) {
+                        if (calculateDistance(lastLocation.latitude, lastLocation.longitude, A.location.lat, A.location.lng) <= 5000) {
+                            if (A.userID == userID) {
+                                val markerLatLng = LatLng(A.location.lat, A.location.lng)
+                                map.addMarker(MarkerOptions()
+                                        .position(markerLatLng)
+                                        .title(A.type)
+                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                                )
+                            } else {
+                                val markerLatLng = LatLng(A.location.lat, A.location.lng)
+                                map.addMarker(MarkerOptions()
+                                        .position(markerLatLng)
+                                        .title(A.type)
+                                )
+                            }
+                        }
+                    }
+                }
+                if (progress == 4) {
+                    seek.thumb = getThumb(progress)
+                    map.clear()
+                    for (A in anomalies) {
+                        if (calculateDistance(lastLocation.latitude, lastLocation.longitude, A.location.lat, A.location.lng) <= 10000) {
+                            if (A.userID == userID) {
+                                val markerLatLng = LatLng(A.location.lat, A.location.lng)
+                                map.addMarker(MarkerOptions()
+                                        .position(markerLatLng)
+                                        .title(A.type)
+                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                                )
+                            } else {
+                                val markerLatLng = LatLng(A.location.lat, A.location.lng)
+                                map.addMarker(MarkerOptions()
+                                        .position(markerLatLng)
+                                        .title(A.type)
+                                )
+                            }
+                        }
+                    }
+                }
+                if (progress == 5) {
+                    seek.thumb = getThumb(progress)
+                    map.clear()
+                    for (A in anomalies) {
+                        if (calculateDistance(lastLocation.latitude, lastLocation.longitude, A.location.lat, A.location.lng) > 10000) {
+                            if (A.userID == userID) {
+                                val markerLatLng = LatLng(A.location.lat, A.location.lng)
+                                map.addMarker(MarkerOptions()
+                                        .position(markerLatLng)
+                                        .title(A.type)
+                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                                )
+                            } else {
+                                val markerLatLng = LatLng(A.location.lat, A.location.lng)
+                                map.addMarker(MarkerOptions()
+                                        .position(markerLatLng)
+                                        .title(A.type)
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
+            override fun onStartTrackingTouch(seek: SeekBar) {
+                // write custom code for progress is started
+            }
+
+            override fun onStopTrackingTouch(seek: SeekBar) {
+                // write custom code for progress is stopped
+            }
+        })
     }
 
     override fun onInfoWindowClick(marker: Marker) {
@@ -289,7 +445,7 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
                         checkedItems[0] = true
                         val filteredAnomalies = anomalies.filter { it.type == getString(R.string.home_menu_typeFilter_accident) }
                         checkedAnomalies += filteredAnomalies
-                    } else if(which == 0 && !isChecked) {
+                    } else if (which == 0 && !isChecked) {
                         val filteredAnomalies = anomalies.filter { it.type == getString(R.string.home_menu_typeFilter_accident) }
                         checkedAnomalies -= filteredAnomalies
                     }
@@ -297,8 +453,7 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
                         checkedItems[1] = true
                         val filteredAnomalies = anomalies.filter { it.type == getString(R.string.home_menu_typeFilter_roadWork) }
                         checkedAnomalies += filteredAnomalies
-                    }
-                    else if(which == 1 && !isChecked) {
+                    } else if (which == 1 && !isChecked) {
                         val filteredAnomalies = anomalies.filter { it.type == getString(R.string.home_menu_typeFilter_roadWork) }
                         checkedAnomalies -= filteredAnomalies
                     }
@@ -306,8 +461,7 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
                         checkedItems[2] = true
                         val filteredAnomalies = anomalies.filter { it.type == getString(R.string.home_menu_typeFilter_roadObstacle) }
                         checkedAnomalies += filteredAnomalies
-                    }
-                    else if(which == 2 && !isChecked) {
+                    } else if (which == 2 && !isChecked) {
                         val filteredAnomalies = anomalies.filter { it.type == getString(R.string.home_menu_typeFilter_roadObstacle) }
                         checkedAnomalies -= filteredAnomalies
                     }
@@ -315,8 +469,7 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
                         checkedItems[3] = true
                         val filteredAnomalies = anomalies.filter { it.type == getString(R.string.home_menu_typeFilter_traffic) }
                         checkedAnomalies += filteredAnomalies
-                    }
-                    else if(which == 3 && !isChecked) {
+                    } else if (which == 3 && !isChecked) {
                         val filteredAnomalies = anomalies.filter { it.type == getString(R.string.home_menu_typeFilter_traffic) }
                         checkedAnomalies -= filteredAnomalies
                     }
@@ -324,8 +477,7 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
                         checkedItems[4] = true
                         val filteredAnomalies = anomalies.filter { it.type == getString(R.string.home_menu_typeFilter_roadPothole) }
                         checkedAnomalies += filteredAnomalies
-                    }
-                    else if(which == 4 && !isChecked) {
+                    } else if (which == 4 && !isChecked) {
                         val filteredAnomalies = anomalies.filter { it.type == getString(R.string.home_menu_typeFilter_roadPothole) }
                         checkedAnomalies -= filteredAnomalies
                     }
@@ -517,8 +669,12 @@ class Home : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClic
             val checked = view.isChecked
 
             when (view.getId()) {
-                R.id.home_satellite_radioButton -> if (checked) { map.mapType = GoogleMap.MAP_TYPE_SATELLITE }
-                R.id.home_terrain_radioButton -> if (checked) { map.mapType = GoogleMap.MAP_TYPE_NORMAL }
+                R.id.home_satellite_radioButton -> if (checked) {
+                    map.mapType = GoogleMap.MAP_TYPE_SATELLITE
+                }
+                R.id.home_terrain_radioButton -> if (checked) {
+                    map.mapType = GoogleMap.MAP_TYPE_NORMAL
+                }
             }
         }
     }

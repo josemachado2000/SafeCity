@@ -2,7 +2,7 @@
     <!--    APP    -->
     <string name="app_name">SafeCity</string>
     <string name="appImage">appImage</string>
-    <string name="imgur_clientID" translatable="false">a5ee927b1b18f1e</string>
+    <!--    <string name="imgur_clientID" translatable="false">a5ee927b1b18f1e</string>-->
 
     <!--    Welcome    -->
     <string name="welcome">Welcome</string>
@@ -86,7 +86,7 @@
 
     <!--    Home    -->
     <string name="home_satellite_radioButton">Satellite</string>
-    <string name="home_terrain_radioButton">Terrain</string>
+    <string name="home_normal_radioButton">Normal</string>
     <string name="home_newAnomaly">New Anomaly</string>
 
     <!--    Insert Anomaly    -->
@@ -126,4 +126,11 @@
         <string name="update_anomaly_ObligationError">Field can´t be empty</string>
         <string name="update_anomaly_titleLengthError">Title too long</string>
         <string name="update_anomaly_descLengthError">Description too long</string>
+        <!--    SeekBar Thumb     -->
+        <string name="thumb_all">All</string>
+        <string name="thumb_500m">500 m</string>
+        <string name="thumb_1km">1 km</string>
+        <string name="thumb_5km">5 km</string>
+        <string name="thumb_10km">10 km</string>
+        <string name="thumb_more10km">>10 km</string>
 </resources>

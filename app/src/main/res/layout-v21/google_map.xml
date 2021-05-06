@@ -13,10 +13,10 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.0"
         tools:context=".Home" />
 
     <RadioGroup
@@ -24,8 +24,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:orientation="horizontal"
-        android:background="@color/light_gray" >
+        android:orientation="vertical"
+        android:background="@drawable/marker_infowindow" >
 
         <RadioButton
             android:id="@+id/home_satellite_radioButton"
@@ -40,7 +40,7 @@
             android:id="@+id/home_terrain_radioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/home_terrain_radioButton"
+            android:text="@string/home_normal_radioButton"
             android:onClick="onRadioButtonClicked" />
     </RadioGroup>
 
@@ -59,5 +59,22 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:maxImageSize="30dp" />
+
+    <SeekBar
+        android:id="@+id/home_distance_seekBar"
+        style="@style/Widget.AppCompat.SeekBar"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:background="@color/light_gray"
+        android:max="5"
+        android:progress="0"
+        app:layout_constraintBottom_toBottomOf="@+id/home_fab_insertAnomaly"
+        app:layout_constraintEnd_toStartOf="@+id/home_fab_insertAnomaly"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/home_fab_insertAnomaly"
+        app:tickMarkTint="@color/dark_gray" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
