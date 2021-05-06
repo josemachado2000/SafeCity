@@ -68,7 +68,7 @@ class Login : AppCompatActivity() {
                         if (response.isSuccessful) {
                             loginFailedError.isInvisible = true
                             val user: LoginPostResponse = response.body()!!
-                            Toast.makeText(this@Login, user.id.toString().plus("   ->   ").plus(user.username), Toast.LENGTH_SHORT).show()
+//                            Toast.makeText(this@Login, user.id.toString().plus("   ->   ").plus(user.username), Toast.LENGTH_SHORT).show()
 
                             val loginSharedPref: SharedPreferences = getSharedPreferences(getString(R.string.login_preference_file), Context.MODE_PRIVATE)
                             with(loginSharedPref.edit()) {
@@ -137,7 +137,7 @@ class Login : AppCompatActivity() {
         val loginFailedError: TextView = findViewById(R.id.login_failedLoginError)
         val textInputLayoutUsername: TextInputLayout = findViewById(R.id.login_username_TextInputLayout)
         val textInputLayoutPassword: TextInputLayout = findViewById(R.id.login_password_TextInputLayout)
-        Toast.makeText(this, loginFailedError.visibility.toString(), Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this, loginFailedError.visibility.toString(), Toast.LENGTH_SHORT).show()
         if(loginFailedError.visibility == 4 && savedInstanceState.getString("LOGIN_USERNAME")?.nonEmpty() == true &&
                 savedInstanceState.getString("LOGIN_PASSWORD")?.nonEmpty() == true) { loginFailedError.isVisible = true }
         textInputLayoutUsername.editText?.setText(savedInstanceState.getString("LOGIN_USERNAME"))

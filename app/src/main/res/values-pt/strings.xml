@@ -130,4 +130,15 @@
         <string name="thumb_5km">5 km</string>
         <string name="thumb_10km">10 km</string>
         <string name="thumb_more10km">>10 km</string>
+
+    <!--    Sensors    -->
+    <string name="lightSensorText">Sensor:</string>
+    <string name="brightness_0">Preto</string>
+    <string name="brightness_1_10">Cinzento escuro</string>
+    <string name="brightness_11_5000">Cinzento</string>
+    <string name="brightness_5001_25000">Cinzento claro</string>
+    <string name="brightness_blind">Branco</string>
+
+    <string name="accelerometerUpDown">Cima/Baixo: </string>
+    <string name="accelerometerLeftRight">Esquerda/Direita: </string>
 </resources>
