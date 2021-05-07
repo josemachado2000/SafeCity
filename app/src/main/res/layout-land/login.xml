@@ -11,7 +11,7 @@
         android:id="@+id/login_loginTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:text="@string/login_loginTitle"
         android:textColor="@color/black"
         android:textSize="30sp"
@@ -36,7 +36,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_loginTitle">
@@ -45,8 +44,7 @@
             android:id="@+id/login_password_TextInputLayout"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="50dp"
-            android:layout_marginRight="50dp"
+            android:layout_marginTop="8dp"
             android:hint="@string/login_password_hint"
             app:boxBackgroundColor="@color/light_gray"
             app:boxCornerRadiusBottomEnd="10dp"
@@ -59,7 +57,8 @@
             app:hintTextAppearance="@style/TextAppearance.AppCompat.Body2"
             app:hintTextColor="@android:color/darker_gray"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/login_username_TextInputLayout">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_username_TextInputLayout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -74,11 +73,7 @@
             android:id="@+id/login_username_TextInputLayout"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginRight="32dp"
+            android:layout_marginTop="8dp"
             android:hint="@string/login_username_hint"
             app:boxBackgroundColor="@color/light_gray"
             app:boxCornerRadiusBottomEnd="10dp"
@@ -90,7 +85,7 @@
             app:errorEnabled="true"
             app:hintTextAppearance="@style/TextAppearance.AppCompat.Body2"
             app:hintTextColor="@android:color/darker_gray"
-            app:layout_constraintEnd_toStartOf="@+id/login_password_TextInputLayout"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.504"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -124,7 +119,7 @@
             android:id="@+id/login_buttonLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
             android:text="@string/login_buttonLogin"
             app:layout_constraintBottom_toBottomOf="parent"

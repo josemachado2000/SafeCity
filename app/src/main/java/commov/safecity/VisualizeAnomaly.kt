@@ -160,9 +160,9 @@ class VisualizeAnomaly : AppCompatActivity() {
                 override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                     typeSelected.type = types[position]
                     for (T in responseTypes) {
-                        if(T.type === types[position]) {
+                        if(T.type == types[position]) {
                             typeSelected.type_id = T.id
-                            // Log.i("Insert", "${T.type} ${types[position]} ${typeSelected.type_id} ${T.id}")
+                            Log.i("Insert", "${T.type} ${types[position]} ${typeSelected.type_id} ${T.id}")
                         }
 
                     }
